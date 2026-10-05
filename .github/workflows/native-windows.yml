@@ -1,0 +1,33 @@
+name: Lesson 05 Windows executable
+on:
+  pull_request:
+    branches: [develop]
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  desktop:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-node@v5
+        with:
+          node-version: 22
+          cache: npm
+      - uses: dtolnay/rust-toolchain@stable
+      - run: npm ci --ignore-scripts
+      - run: npm run desktop:build
+      - name: Require actual native executable and installer
+        shell: pwsh
+        run: |
+          $taskExe = @(Get-ChildItem .native/lesson-05/build-*/*/src-tauri/target/release/*.exe -File)
+          $taskInstaller = @(Get-ChildItem .native/lesson-05/build-*/*/src-tauri/target/release/bundle/nsis/*.exe -File)
+          if ($taskExe.Count -lt 1 -or $taskInstaller.Count -lt 1) { throw 'Native executable and NSIS installer are both required.' }
+      - uses: actions/upload-artifact@v4
+        with:
+          name: lesson-05-windows
+          path: |
+            .native/lesson-05/build-*/*/src-tauri/target/release/*.exe
+            .native/lesson-05/build-*/*/src-tauri/target/release/bundle/nsis/*.exe
+            .native/lesson-05/build-receipt.json
+          if-no-files-found: error

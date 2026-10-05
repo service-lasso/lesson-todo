@@ -398,6 +398,11 @@ async function createVerificationReleaseFixture(rootDir, assetNameOverride = nul
   await mkdir(workRoot, { recursive: true });
   await mkdir(archiveRoot, { recursive: true });
   await writeFile(path.join(workRoot, "README.md"), "fixture\n", "utf8");
+  if (process.platform !== 'win32') {
+    // The published Core admits the declared executable during archive install.
+    // Supply an actual runnable Unix fixture member instead of a README-only archive.
+    await writeFile(path.join(workRoot, 'echo-service'), '#!/bin/sh\nprintf "fixture\\n"\n', {mode:0o755});
+  }
 
   let assetName;
   let archiveType;

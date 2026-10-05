@@ -1,0 +1,22 @@
+{
+  "id": "04-sso",
+  "article": "https://service-lasso.github.io/service-lasso/getting-started/zitadel-sso-hub",
+  "services": [
+    "@node",
+    "@python",
+    "@java",
+    "@localcert",
+    "@nginx",
+    "@traefik",
+    "@serviceadmin",
+    "echo-service",
+    "@secretsbroker",
+    "todo",
+    "postgres",
+    "todo-api",
+    "zitadel",
+    "@todo-certs"
+  ],
+  "host": "../../src/lesson-host.mjs",
+  "workspace": "../../.workspace/04-sso"
+}

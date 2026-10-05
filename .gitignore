@@ -5,3 +5,7 @@ dist/
 artifacts/
 .workspace/
 *.log
+
+.tmp/
+.payload/
+.native/

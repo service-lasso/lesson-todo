@@ -1,0 +1,35 @@
+# Issue #1 candidate evidence
+
+Development; SPEC-LESSONS LESSON-1..6 / Core #1695. One writer; public application
+assembly only. Canonical producer service implementations are not copied or changed.
+
+- Implemented five complete inventories, linked READMEs and minimal purpose diagrams.
+- Setup acquires exact verified Admin, copies once, rejects nested links/junctions and
+  retains configured manifests, credential bytes and database bytes.
+- Node lesson hosts own loopback runtime/Admin and separate instance/port registries;
+  stdin `shutdown` reaches owned Core stop. Root fixture host also uses private registries.
+- SSO seeds reject manual anonymous startup through incomplete OIDC / required API auth;
+  default launch requires a paired configuration. Provision helper uses verified published
+  Core private modules, explicit Broker grants and private stdin input.
+- Desktop bootstrap verifies the exact Tauri archive and uses a fresh extraction each run.
+  A negative contract proves cached private credential/source edits are not reused. Windows
+  CI invokes the lesson build and requires executable plus NSIS installer artifacts.
+- Direct local setup acquired Admin and verified its checksum without sibling builds.
+- New contracts and preserved host/services-root tests passed. All inherited test sources
+  are unchanged. Full inherited release fixture initially failed on Windows PowerShell
+  `Compress-Archive` module loading; subsequent attempt exposed the shared host registry
+  bounded-size error. Registry isolation was corrected without modifying shared state.
+  Original failures stay in private tool receipts / ignored `.tmp` evidence.
+- All 8 inherited/new tests subsequently passed on Windows with the canonical Windows
+  PowerShell module path set only in the test child environment. Linux CI then found the
+  inherited install fixture's README-only archive lacked its declared `echo-service`
+  executable; fixture assembly now includes a real Unix executable without assertion edits.
+- Linux CI passed all 8 tests on `39f3e04`. Native Windows CI then reached Rust compilation
+  but linker output exceeded Windows path limits (LNK1104). The source extraction now
+  strips the enclosing archive directory into a short owned `app` directory; actual source
+  bytes and archive integrity remain unchanged. No shared host settings were changed.
+
+Independent source review, exact fresh managed CRUD/restart/outage proof, actual provider
+SSO, native build CI and develop PR checks are pending at first candidate publication.
+None of these boundaries is represented as passed by contract tests. No GA, promotion,
+deployment, shared database/CA trust mutation or Core publication is authorized here.

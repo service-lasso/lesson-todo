@@ -20,6 +20,10 @@ assembly only. Canonical producer service implementations are not copied or chan
   `Compress-Archive` module loading; subsequent attempt exposed the shared host registry
   bounded-size error. Registry isolation was corrected without modifying shared state.
   Original failures stay in private tool receipts / ignored `.tmp` evidence.
+- All 8 inherited/new tests subsequently passed on Windows with the canonical Windows
+  PowerShell module path set only in the test child environment. Linux CI then found the
+  inherited install fixture's README-only archive lacked its declared `echo-service`
+  executable; fixture assembly now includes a real Unix executable without assertion edits.
 
 Independent source review, exact fresh managed CRUD/restart/outage proof, actual provider
 SSO, native build CI and develop PR checks are pending at first candidate publication.

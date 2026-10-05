@@ -1,0 +1,95 @@
+name: Release
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - main
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      packages: read
+
+    steps:
+      - name: Check out repo
+        uses: actions/checkout@v5
+
+      - name: Set up Node
+        uses: actions/setup-node@v5
+        with:
+          node-version: 22
+          cache: npm
+          registry-url: https://npm.pkg.github.com
+          scope: "@service-lasso"
+
+      - name: Run tests
+        run: npm test
+        env:
+          NODE_AUTH_TOKEN: ${{ github.token }}
+
+      - name: Verify release artifact
+        run: npm run release:verify
+        env:
+          NODE_AUTH_TOKEN: ${{ github.token }}
+
+      - name: Read release version
+        id: release_version
+        run: |
+          VERSION=$(node -p "require('./package.json').version")
+          NAME=$(node -p "require('./package.json').name.split('/').pop()")
+          echo "artifact_base=$NAME-$VERSION" >> "$GITHUB_OUTPUT"
+
+      - name: Upload staged source artifact folder
+        uses: actions/upload-artifact@v6
+        with:
+          name: ${{ steps.release_version.outputs.artifact_base }}-source
+          path: artifacts/${{ steps.release_version.outputs.artifact_base }}-source
+
+      - name: Upload staged runtime artifact folder
+        uses: actions/upload-artifact@v6
+        with:
+          name: ${{ steps.release_version.outputs.artifact_base }}-runtime
+          path: artifacts/${{ steps.release_version.outputs.artifact_base }}-runtime
+
+      - name: Upload staged preloaded artifact folder
+        uses: actions/upload-artifact@v6
+        with:
+          name: ${{ steps.release_version.outputs.artifact_base }}-preloaded
+          path: artifacts/${{ steps.release_version.outputs.artifact_base }}-preloaded
+
+      - name: Upload packaged source archive
+        uses: actions/upload-artifact@v6
+        with:
+          name: ${{ steps.release_version.outputs.artifact_base }}-source-archive
+          path: artifacts/${{ steps.release_version.outputs.artifact_base }}-source.tar.gz
+
+      - name: Upload packaged runtime archive
+        uses: actions/upload-artifact@v6
+        with:
+          name: ${{ steps.release_version.outputs.artifact_base }}-runtime-archive
+          path: artifacts/${{ steps.release_version.outputs.artifact_base }}-runtime.tar.gz
+
+      - name: Upload packaged preloaded archive
+        uses: actions/upload-artifact@v6
+        with:
+          name: ${{ steps.release_version.outputs.artifact_base }}-preloaded-archive
+          path: artifacts/${{ steps.release_version.outputs.artifact_base }}-preloaded.tar.gz
+
+      - name: Create or update GitHub release
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+        run: |
+          TAG_NAME="${GITHUB_REF_NAME}"
+          if [[ "${GITHUB_REF}" == "refs/heads/main" ]]; then
+            TAG_NAME="latest"
+            git tag -f "$TAG_NAME" "$GITHUB_SHA"
+            git push origin "refs/tags/$TAG_NAME" --force
+          fi
+          SOURCE_ARCHIVE="artifacts/${{ steps.release_version.outputs.artifact_base }}-source.tar.gz"
+          RUNTIME_ARCHIVE="artifacts/${{ steps.release_version.outputs.artifact_base }}-runtime.tar.gz"
+          PRELOADED_ARCHIVE="artifacts/${{ steps.release_version.outputs.artifact_base }}-preloaded.tar.gz"
+          gh release view "$TAG_NAME" >/dev/null 2>&1 || gh release create "$TAG_NAME" --title "$TAG_NAME" --notes "Source, bootstrap-download, and preloaded runtime artifacts."
+          gh release upload "$TAG_NAME" "$SOURCE_ARCHIVE" "$RUNTIME_ARCHIVE" "$PRELOADED_ARCHIVE" --clobber

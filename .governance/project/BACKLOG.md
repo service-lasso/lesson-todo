@@ -5,3 +5,5 @@
   exact published Broker/Zitadel macOS compatibility consumption.
   Includes exclusive fresh manifest profile selection, full source/destination
   preflight and retained legacy Broker/Node/Zitadel platform guard regressions.
+  Fresh Node archive definitions require published SHA256SUMS acquisition
+  verification; exact consumer integrity and retained-state regression proof.

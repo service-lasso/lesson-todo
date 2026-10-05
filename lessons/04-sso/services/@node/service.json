@@ -37,7 +37,11 @@
         "command": ".\\node.exe",
         "args": [
           "--version"
-        ]
+        ],
+        "checksum": {
+          "algorithm": "sha256",
+          "assetName": "SHA256SUMS.txt"
+        }
       },
       "linux": {
         "assetName": "lasso-node-v22.23.3-linux.tar.gz",
@@ -45,7 +49,11 @@
         "command": "./bin/node",
         "args": [
           "--version"
-        ]
+        ],
+        "checksum": {
+          "algorithm": "sha256",
+          "assetName": "SHA256SUMS.txt"
+        }
       },
       "darwin": {
         "assetName": "lasso-node-v22.23.3-darwin.tar.gz",
@@ -53,7 +61,11 @@
         "command": "./bin/node",
         "args": [
           "--version"
-        ]
+        ],
+        "checksum": {
+          "algorithm": "sha256",
+          "assetName": "SHA256SUMS.txt"
+        }
       }
     }
   }

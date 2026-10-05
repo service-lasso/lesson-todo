@@ -19,6 +19,9 @@ lasso-node tag `2026.10.5-4b473fb` (producer commit
 `4b473fbbf70e109cce9632d0f59b2e80f1b9a5b5`). The published tag targets that exact commit and its Node 22 asset inventory
 and Windows archive checksum have been verified. Fresh managed consumer proof
 remains separate; source pins alone do not establish a working checkpoint.
+Fresh manifests require normal Core acquisition to verify each Node archive
+against the published `SHA256SUMS.txt`; [Node provenance](profiles/node/source.json)
+records the exact tag and checksum inventory.
 
 Fresh Intel checkpoints select the qualified Broker macOS 11 compatibility
 profile from [release 2026.10.5-9c0b0e6](https://github.com/service-lasso/lasso-secretsbroker/releases/tag/2026.10.5-9c0b0e6).

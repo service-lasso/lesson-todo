@@ -67,3 +67,9 @@ acquired bytes are never replaced. Legacy Broker requires macOS 12; retained
 Node 24 requires 13.5. Stage04's legacy Zitadel still requires macOS 12 until
 its exact qualified compatibility profile is consumed. Preserve these gates
 and distinguish qualified producer proof from complete native lesson proof.
+
+Issue #4 / LESSON-2/6 acquisition integrity: All fresh Node 22.23.3 consumer
+platform definitions must use the exact published `SHA256SUMS.txt` asset with
+SHA-256 verification during normal Core acquisition. An independent archive
+hash check does not replace this consumer contract. Keep retained inventories
+and acquired runtimes unchanged; preserve this requirement in inventory tests.

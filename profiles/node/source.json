@@ -1,0 +1,13 @@
+{
+  "repository": "service-lasso/lasso-node",
+  "tag": "2026.10.5-4b473fb",
+  "commit": "4b473fbbf70e109cce9632d0f59b2e80f1b9a5b5",
+  "checksumAsset": "SHA256SUMS.txt",
+  "checksumAssetSha256": "6d89058deb5c93e737e2b00d99d99bf538b828ce15c74d13432755a53a14683d",
+  "node22Archives": {
+    "darwin": "6225a474694eb3fd5fafafae870a475736285e25e1abdfd51810fe8ab7a33807",
+    "linux": "6ecac7693d3533ecb59bb4a84e9d4a52e9f848c80b4fff0aaae008d79c7c0741",
+    "win32": "1c6b103e840595738aacfe45d4f1cca8384987af68c6de017c0573e16c9d9cc2"
+  },
+  "consumerContract": "Fresh inventories ask normal Core acquisition to verify the published SHA256SUMS.txt. Retained inventories and acquired runtimes are not rewritten. All-platform native lesson acceptance is separate from checksum inventory readback."
+}

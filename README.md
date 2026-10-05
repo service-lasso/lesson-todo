@@ -12,6 +12,26 @@ The real service implementations and release archives remain in their producer r
 | [04 SSO](lessons/04-sso/README.md) | Identity, HTTPS, paired App/API protection | [Add SSO](https://service-lasso.github.io/service-lasso/getting-started/zitadel-sso-hub) |
 | [05 Desktop](lessons/05-desktop/README.md) | Native Windows shell; optional identity | [Package Todo](https://service-lasso.github.io/service-lasso/getting-started/package-todo-tauri) |
 
+## Platform prerequisites
+
+Use host Node 22 or newer. Fresh checkpoints acquire managed Node 22.23.3 from
+lasso-node tag `2026.10.5-4b473fb` (producer commit
+`4b473fbbf70e109cce9632d0f59b2e80f1b9a5b5`). The published tag targets that exact commit and its Node 22 asset inventory
+and Windows archive checksum have been verified. Fresh managed consumer proof
+remains separate; source pins alone do not establish a working checkpoint.
+
+The Node 22 binary minimum is macOS 11 on x64 and arm64, but every checkpoint
+also needs Broker: Go 1.26 requires macOS 12 or newer. Setup and run reject
+older macOS before downloading or writing lesson state. Existing managed Node
+24 manifests require macOS 13.5 or newer; setup retains their pins and acquired
+bytes rather than upgrading them. Use a separate fresh checkpoint for a new pin.
+Core management-only execution on macOS 11 is separate evidence; this lesson
+entry starts the Broker-dependent assembly and does not qualify that full stack
+on macOS 11. Binary compatibility is not production OS support: use a vendor-supported OS.
+See [Node 22 platform contract](https://github.com/nodejs/node/blob/v22.23.3/BUILDING.md)
+and [Go 1.26 minimum macOS](https://go.dev/doc/go1.26#darwin).
+Windows desktop compilation remains a separately qualified Windows x64 flow.
+
 Start at the repository root with Node 22 or newer:
 
 ```sh

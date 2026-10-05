@@ -1,6 +1,7 @@
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { mkdir, readFile, lstat, realpath } from 'node:fs/promises';
+import { execFileSync } from 'node:child_process';
 import { prepareAdmin } from './prepare-admin.mjs';
 import { prepareStarterServicesRoot } from '../src/services-root.js';
 
@@ -23,12 +24,25 @@ export async function assertOwnedTree(target, root = repoRoot) {
     current = path.dirname(current);
   }
 }
-export async function prepareLesson(selector) {
+export async function assertPlatformPrerequisites(config, { platform = process.platform, macosVersion } = {}) {
+  if (platform !== 'darwin') return;
+  const version = macosVersion ?? execFileSync('/usr/bin/sw_vers', ['-productVersion'], { encoding: 'utf8' }).trim();
+  if (!/^\d+\.\d+(?:\.\d+)?$/.test(version)) throw Error('Cannot determine macOS version; the managed Broker stack requires macOS 12 or newer.');
+  const [major, minor] = version.split('.').map(Number);
+  if (major < 12) throw Error(`macOS ${version} cannot run the managed Broker stack (Go 1.26); macOS 12 or newer is required. Lesson state is retained.`);
+  let node;
+  try { node = JSON.parse(await readFile(path.join(config.servicesRoot, '@node', 'service.json'), 'utf8')); }
+  catch (error) { if (error.code !== 'ENOENT') throw error; }
+  if (/^v?24\./.test(node?.version ?? '') && (major < 13 || (major === 13 && minor < 5)))
+    throw Error(`Retained managed Node ${node.version} requires macOS 13.5 or newer. Setup preserves its manifest and acquired bytes; use a fresh checkpoint for Node 22.`);
+}
+export async function prepareLesson(selector, platformOptions) {
   const config = lessonPaths(selector);
   await assertOwnedTree(config.servicesRoot);
   await assertOwnedTree(config.workspaceRoot);
   await assertOwnedTree(config.registryPath);
   await assertOwnedTree(config.portRegistryPath);
+  await assertPlatformPrerequisites(config, platformOptions);
   await prepareAdmin();
   await mkdir(path.dirname(config.registryPath), { recursive: true });
   await prepareStarterServicesRoot(config);

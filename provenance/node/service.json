@@ -2,12 +2,18 @@
   "id": "@node",
   "name": "Node Runtime",
   "description": "Release-backed Node.js runtime provider for Service Lasso services.",
-  "version": "v22.23.3",
+  "version": "v24.15.0",
   "role": "provider",
   "enabled": true,
   "executable": "node",
-  "args": [
-    "--version"
+  "args": ["--version"],
+  "healthchecks": [
+    {
+      "id": "node-version",
+      "type": "process",
+      "retries": 3,
+      "interval": 1000
+    }
   ],
   "env": {
     "NODE_ENV": "development"
@@ -16,11 +22,14 @@
     "NODE": "${SERVICE_ARTIFACT_COMMAND}",
     "NODE_HOME": "${SERVICE_ARTIFACT_ROOT}"
   },
-  "urls": [
+  "endpoints": [
     {
-      "label": "docs",
+      "id": "docs",
+      "kind": "url",
+      "label": "Node.js documentation",
       "url": "https://nodejs.org",
-      "kind": "external"
+      "exposure": "public",
+      "required": false
     }
   ],
   "artifact": {
@@ -28,32 +37,26 @@
     "source": {
       "type": "github-release",
       "repo": "service-lasso/lasso-node",
-      "tag": "2026.10.5-4b473fb"
+      "channel": "latest"
     },
     "platforms": {
       "win32": {
-        "assetName": "lasso-node-v22.23.3-win32.zip",
+        "assetName": "lasso-node-v24.15.0-win32.zip",
         "archiveType": "zip",
         "command": ".\\node.exe",
-        "args": [
-          "--version"
-        ]
+        "args": ["--version"]
       },
       "linux": {
-        "assetName": "lasso-node-v22.23.3-linux.tar.gz",
+        "assetName": "lasso-node-v24.15.0-linux.tar.gz",
         "archiveType": "tar.gz",
         "command": "./bin/node",
-        "args": [
-          "--version"
-        ]
+        "args": ["--version"]
       },
       "darwin": {
-        "assetName": "lasso-node-v22.23.3-darwin.tar.gz",
+        "assetName": "lasso-node-v24.15.0-darwin.tar.gz",
         "archiveType": "tar.gz",
         "command": "./bin/node",
-        "args": [
-          "--version"
-        ]
+        "args": ["--version"]
       }
     }
   }

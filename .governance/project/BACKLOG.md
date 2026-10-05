@@ -3,6 +3,10 @@
 - #9 preparation in_progress; product implementation blocked on public qualified
   ZITADEL profile/native receipt -> SPEC-LESSONS LESSON-2/4/6;
   STAGE04-MACOS11-PLAN.md. Preparation does not claim native lesson acceptance.
+  Fresh author accepted the retired-preparation handoff on the existing PR #10
+  branch; prerequisite PR #8 is landed. Parent supplies qualification trigger
+  and owns final landing/publication. Stage 05 native executable scope is
+  Windows x64 only.
 
 - #1 in_progress -> SPEC-LESSONS LESSON-1..6; Core #1695 / AC-4AJ.12.
 - #4 in_progress -> SPEC-LESSONS LESSON-4/6; cross-platform Stage04 setup and

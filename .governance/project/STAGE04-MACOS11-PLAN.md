@@ -4,6 +4,30 @@ Development mode; preparation only. Base: develop
 `3b8b3acf388d275d76df6afc5c28afacb4795102`. No product pins or runtime
 behavior change is authorized by this preparation artifact.
 
+## Reconciled prerequisites
+
+On 2026-10-05, live PR #8 is merged at the develop SHA above; draft PR #10
+remains the issue #9 delivery path. Its inherited preparation head is
+`c3c84fcf865eacee19da054f44eaaf7e4deff409`, with a clean worktree at handoff.
+The parent explicitly retired the preparation owner and assigned a fresh author
+to continue this existing issue branch. This bounded continuation is the
+documented exception to starting a new work unit on develop; no new branch,
+stacked work or ownership of other checkouts is introduced.
+
+Published Broker `2026.10.5-301b426` and Node `2026.10.5-4b473fb` are already
+consumer inputs. The parent reports literal native acceptance of lessons 01-03;
+that separate receipt does not establish Stage 04 SSO acceptance. Retain Core
+`2026.9.22-f3de461`, Admin `2026.8.31-f015b44`, PostgreSQL
+`2026.10.4-1af7982` and localcert `2026.9.25-588398b` alongside the Todo/API
+pins below. Producer build progress is not a qualification trigger.
+
+The parent owns producer qualification, the isolated Mac verification workspace,
+PR landing and article publication. This author owns only issue #9's lesson
+worktree. Do not alter producer Go/native code, shared toolchains, OS settings,
+trust stores, other workers' fixtures or retained runtime state. Stage 05's
+native executable qualification remains Windows x64 only; runnable Mac lessons
+do not imply a Mac desktop executable.
+
 ## Required producer handoff
 
 Before implementation, the coordinating parent must provide the actual public
@@ -64,6 +88,12 @@ reviewer and perform the actual literal Stage 04 Mac instructions against the
 exact qualified public bytes in an isolated owned workspace. Capture setup,
 Broker initialization, TLS readiness, paired login/API authorization, CRUD,
 shutdown/restart and retained IDs; keep private secret receipts separate.
+The native verification receipt must also exercise anonymous/invalid session
+rejection, invalid or aborted private provisioning without a child launch,
+session refresh/logout behavior, provider outage/recovery and unchanged retained
+credentials/acquired links after setup rerun. Classify each scenario explicitly
+and retain original failures. Record the exact public consumer commit and
+producer tag/asset hashes used by the verifier; fixtures remain supporting proof.
 Producer issue #18 proof, lesson fixtures, native consumer acceptance and docs
 publication are independent claims. Publish the corresponding Core article
 only through its governed authorized flow and verify the live content.
@@ -71,3 +101,6 @@ only through its governed authorized flow and verify the live content.
 This preparation PR does not close issue #9, claim native SSO acceptance,
 declare release readiness or change product pins. Keep the worktree while its
 PR is open; one writer owns it. Resume only with the required producer handoff.
+The active author remains available for that handoff. Evidence stays in the
+parent-designated private issue #9 evidence bundle; no secrets or private runtime
+receipts belong in this repository.

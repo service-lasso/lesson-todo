@@ -35,7 +35,7 @@ flowchart LR
 | Identity | [zitadel](services/zitadel/service.json) | Authenticate users | Disabled |
 | Certificates | [@todo-certs](services/@todo-certs/service.json) | Provide local Identity HTTPS | Disabled |
 
-Prerequisites: host Node 22 or newer; the full managed stack requires macOS 12 or newer because Broker uses Go 1.26. Managed Node is pinned to 22.23.3 (its binary minimum is macOS 11). Production use requires an OS still supported by its vendor. Existing Node 24 state requires macOS 13.5 or newer and is retained by setup. See [platform prerequisites](../../README.md#platform-prerequisites).
+Prerequisites: host Node 22 or newer; fresh Intel macOS 11 uses the qualified Broker compatibility profile; ARM and retained legacy Broker require macOS 12. Stage04 also requires macOS 12 until its Zitadel compatibility profile is qualified. Managed Node is pinned to 22.23.3 (its binary minimum is macOS 11). Production use requires an OS still supported by its vendor. Existing Node 24 state requires macOS 13.5 or newer and is retained by setup. See [platform prerequisites](../../README.md#platform-prerequisites).
 
 From the repository root, with Node 22 or newer:
 
@@ -65,7 +65,7 @@ The disabled inherited `@serviceadmin` manifest is inventory provenance only. Th
 - @traefik: [source and release 2026.4.27-bbc7f15](https://github.com/service-lasso/lasso-traefik/releases/tag/2026.4.27-bbc7f15).
 - @serviceadmin: [source and release 2026.4.18-170a1af](https://github.com/service-lasso/lasso-serviceadmin/releases/tag/2026.4.18-170a1af).
 - echo-service: [source and release 2026.4.20-a417abd](https://github.com/service-lasso/lasso-echoservice/releases/tag/2026.4.20-a417abd).
-- @secretsbroker: [source and release 2026.8.31-f340883](https://github.com/service-lasso/lasso-secretsbroker/releases/tag/2026.8.31-f340883).
+- @secretsbroker: [source and release 2026.10.5-9c0b0e6](https://github.com/service-lasso/lasso-secretsbroker/releases/tag/2026.10.5-9c0b0e6).
 - todo: [source and release 2026.10.4-15dc4b9](https://github.com/service-lasso/lasso-todo/releases/tag/2026.10.4-15dc4b9).
 - postgres: [source and release 2026.10.4-1af7982](https://github.com/service-lasso/lasso-postgres/releases/tag/2026.10.4-1af7982).
 - todo-api: [source and release 2026.10.4-02ef566](https://github.com/service-lasso/lasso-todo-api/releases/tag/2026.10.4-02ef566).

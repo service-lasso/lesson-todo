@@ -59,7 +59,7 @@ test('macOS preflight distinguishes full Broker stack from retained Node provide
   try {
     await assert.rejects(assertPlatformPrerequisites(config,{platform:'darwin',macosVersion:'11.7.11'}),/Broker stack.*macOS 12/);
     // The public setup entry must reject before Admin acquisition or state preparation.
-    await assert.rejects(prepareLesson('01',{platform:'darwin',macosVersion:'11.7.11'}),/Broker stack.*macOS 12/);
+    await assert.rejects(prepareLesson('04',{platform:'darwin',arch:'x64',macosVersion:'11.7.11'}),/Zitadel profile.*macOS 12/);
     await assert.doesNotReject(assertPlatformPrerequisites(config,{platform:'darwin',macosVersion:'12.0'}));
     await assert.rejects(assertPlatformPrerequisites(config,{platform:'darwin',macosVersion:'unknown'}),/Cannot determine/);
     await mkdir(path.join(config.servicesRoot,'@node'),{recursive:true});

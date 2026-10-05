@@ -1,0 +1,11 @@
+{
+  "repository": "service-lasso/lasso-secretsbroker",
+  "tag": "2026.10.5-9c0b0e6",
+  "commit": "9c0b0e6c6b9ac5aae746a8f9317cdb0ca0ba909d",
+  "workflowRun": 37268202103,
+  "profileAsset": "service-darwin-amd64-macos11.json",
+  "profileSha256": "421af7fddf1b37af293fe2be1f6265390e5d930197f1e7535a271d982b21ad67",
+  "archiveAsset": "secretsbroker-darwin-amd64-macos11.tar.gz",
+  "archiveSha256": "0c23315b5cc986ccdd3f9bf0b6b253c941e1e527e1a408e7858549c5f08703d4",
+  "qualification": "Actual macOS 11.7.11 native 16 gates, public payload checksums, original public Core/Admin acquisition and signed lookup/restart/custody 9 checks passed. Full lesson SSO and GA remain separate."
+}

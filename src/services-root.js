@@ -64,7 +64,7 @@ async function seedEntries(source, destination, boundary, entries = []) {
   return entries;
 }
 
-export async function prepareStarterServicesRoot(config) {
+export async function preflightStarterServicesRoot(config) {
   const boundary = preparationBoundary(config.sourceServicesRoot, config.servicesRoot);
   await assertWritePath(config.sourceServicesRoot, boundary);
   await assertServiceTree(config.sourceServicesRoot);
@@ -73,6 +73,21 @@ export async function prepareStarterServicesRoot(config) {
   // Preflight the complete seed write boundary before creating anything. Even
   // an explicit seed path below .state must not traverse a retained link.
   const entries = await seedEntries(config.sourceServicesRoot, config.servicesRoot, boundary);
+  // An explicitly selected platform profile may replace a seed source only;
+  // the destination remains one of the fully preflighted seed file paths.
+  for (const [relative, source] of Object.entries(config.seedFileOverrides ?? {})) {
+    const entry = entries.find(item => path.relative(config.sourceServicesRoot, item.source) === relative);
+    if (!entry || entry.directory) throw Error('Platform profile must select an existing seed file.');
+    await assertWritePath(source, boundary);
+    await assertServiceTree(source);
+    if (!(await lstat(source)).isFile()) throw Error('Platform profile requires a plain file.');
+    entry.source = source;
+  }
+  return { boundary, entries };
+}
+
+export async function prepareStarterServicesRoot(config) {
+  const { boundary, entries } = await preflightStarterServicesRoot(config);
   for (const { source, destination, directory } of entries) {
     await assertWritePath(destination, boundary);
     if (directory) await mkdir(destination, { recursive: true });

@@ -2,8 +2,9 @@ import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { mkdir, readFile, lstat, realpath } from 'node:fs/promises';
 import { execFileSync } from 'node:child_process';
+import { createHash } from 'node:crypto';
 import { prepareAdmin } from './prepare-admin.mjs';
-import { prepareStarterServicesRoot } from '../src/services-root.js';
+import { prepareStarterServicesRoot, preflightStarterServicesRoot } from '../src/services-root.js';
 
 export const repoRoot = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 export const lessons = ['01-app', '02-database', '03-api', '04-sso', '05-desktop'];
@@ -24,17 +25,46 @@ export async function assertOwnedTree(target, root = repoRoot) {
     current = path.dirname(current);
   }
 }
-export async function assertPlatformPrerequisites(config, { platform = process.platform, macosVersion } = {}) {
+export const brokerMacos11 = {
+  tag: '2026.10.5-9c0b0e6',
+  asset: 'secretsbroker-darwin-amd64-macos11.tar.gz',
+  profileSha256: '421af7fddf1b37af293fe2be1f6265390e5d930197f1e7535a271d982b21ad67'
+};
+export async function assertPlatformPrerequisites(config, { platform = process.platform, arch = process.arch, macosVersion } = {}) {
   if (platform !== 'darwin') return;
   const version = macosVersion ?? execFileSync('/usr/bin/sw_vers', ['-productVersion'], { encoding: 'utf8' }).trim();
-  if (!/^\d+\.\d+(?:\.\d+)?$/.test(version)) throw Error('Cannot determine macOS version; the managed Broker stack requires macOS 12 or newer.');
+  if (!/^\d+\.\d+(?:\.\d+)?$/.test(version)) throw Error('Cannot determine macOS version.');
   const [major, minor] = version.split('.').map(Number);
-  if (major < 12) throw Error(`macOS ${version} cannot run the managed Broker stack (Go 1.26); macOS 12 or newer is required. Lesson state is retained.`);
-  let node;
-  try { node = JSON.parse(await readFile(path.join(config.servicesRoot, '@node', 'service.json'), 'utf8')); }
-  catch (error) { if (error.code !== 'ENOENT') throw error; }
+  if (!['x64', 'arm64'].includes(arch)) throw Error('Unsupported macOS CPU architecture.');
+  if (major < 11) throw Error('Managed lessons require macOS 11 or newer.');
+  const selected = async id => {
+    try { return JSON.parse(await readFile(path.join(config.servicesRoot, id, 'service.json'), 'utf8')); }
+    catch (error) { if (error.code !== 'ENOENT') throw error; }
+    if (config.sourceServicesRoot) {
+      try { return JSON.parse(await readFile(path.join(config.sourceServicesRoot, id, 'service.json'), 'utf8')); }
+      catch (error) { if (error.code !== 'ENOENT') throw error; }
+    }
+  };
+  const node = await selected('@node');
   if (/^v?24\./.test(node?.version ?? '') && (major < 13 || (major === 13 && minor < 5)))
     throw Error(`Retained managed Node ${node.version} requires macOS 13.5 or newer. Setup preserves its manifest and acquired bytes; use a fresh checkpoint for Node 22.`);
+  let broker = await selected('@secretsbroker');
+  let retainedBroker = false;
+  try { await lstat(path.join(config.servicesRoot, '@secretsbroker', 'service.json')); retainedBroker = true; }
+  catch (error) { if (error.code !== 'ENOENT') throw error; }
+  if (!retainedBroker && arch === 'x64' && broker?.artifact?.source?.tag === brokerMacos11.tag) {
+    const profile = path.join(config.repoRoot ?? repoRoot, 'profiles', 'broker', 'service-darwin-amd64-macos11.json');
+    const bytes = await readFile(profile);
+    if (createHash('sha256').update(bytes).digest('hex') !== brokerMacos11.profileSha256) throw Error('Broker platform profile checksum mismatch.');
+    broker = JSON.parse(bytes);
+    config.seedFileOverrides = { ...config.seedFileOverrides, [path.join('@secretsbroker', 'service.json')]: profile };
+  }
+  const compatibleBroker = broker?.artifact?.source?.repo === 'service-lasso/lasso-secretsbroker' &&
+    broker.artifact.source.tag === brokerMacos11.tag && broker.artifact.platforms?.darwin?.assetName === brokerMacos11.asset;
+  if (compatibleBroker && arch !== 'x64') throw Error('Intel macOS Broker profile requires x64; retained profile is preserved.');
+  if (major < 12 && !compatibleBroker) throw Error('Broker stack requires macOS 12 or a qualified Intel macOS 11 profile. Lesson state is retained.');
+  const identity = await selected('zitadel');
+  if (major < 12 && identity) throw Error('Selected Zitadel profile requires macOS 12 or newer. Lesson state is retained.');
 }
 export async function prepareLesson(selector, platformOptions) {
   const config = lessonPaths(selector);
@@ -43,6 +73,7 @@ export async function prepareLesson(selector, platformOptions) {
   await assertOwnedTree(config.registryPath);
   await assertOwnedTree(config.portRegistryPath);
   await assertPlatformPrerequisites(config, platformOptions);
+  await preflightStarterServicesRoot(config);
   await prepareAdmin();
   await mkdir(path.dirname(config.registryPath), { recursive: true });
   await prepareStarterServicesRoot(config);

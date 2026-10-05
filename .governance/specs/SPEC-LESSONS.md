@@ -36,8 +36,10 @@
   proof. Platform prerequisites and full managed stack acceptance stay distinct.
 
 - LESSON-2/3/6, issue #3: Fresh inventories pin managed Node 22.23.3 from
-  exact producer source/tag. Require macOS >=12 for the complete Broker stack
-  before setup writes/downloads or managed launch; retained Node 24 pins require
+  exact producer source/tag. Legacy/default Broker requires macOS >=12; the
+  exact qualified Intel profile described in issue #4 permits macOS >=11.
+  Check selected profiles before setup writes/downloads or managed launch;
+  retained Node 24 pins require
   >=13.5 and are never silently replaced. Node binary macOS >=11 compatibility
   does not qualify the complete stack or EOL production support. Published
   tag/commit identity, checksums and exact consumer startup/CRUD/restart proof
@@ -51,3 +53,15 @@ launch provisioning. CA trust is process-local. Browser acceptance uses an owned
 isolated Chrome profile pinned to the generated leaf SPKI, without OS trust-store
 mutation. Identity configuration retains the selected published manifest port;
 new producer pins require exact publication/checksum qualification before use.
+
+Issue #4 / LESSON-2/4/6 platform profile selection: Fresh Intel macOS 11 may
+select only the checksum-qualified Broker compatibility manifest from
+`2026.10.5-9c0b0e6`. ARM uses the default Broker profile requiring macOS 12.
+Profile selection occurs before any acquisition or state writes and seeds only
+missing manifest files with exclusive creation. Validate the complete seed and
+override source/destination boundary before writes; reject unsupported CPUs,
+unknown OS versions and missing profiles. Retained manifests, credentials and
+acquired bytes are never replaced. Legacy Broker requires macOS 12; retained
+Node 24 requires 13.5. Stage04's legacy Zitadel still requires macOS 12 until
+its exact qualified compatibility profile is consumed. Preserve these gates
+and distinguish qualified producer proof from complete native lesson proof.

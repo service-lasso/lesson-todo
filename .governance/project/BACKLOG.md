@@ -7,3 +7,6 @@
   preflight and retained legacy Broker/Node/Zitadel platform guard regressions.
   Fresh Node archive definitions require published SHA256SUMS acquisition
   verification; exact consumer integrity and retained-state regression proof.
+  PR #8 lands first-three lesson compatibility, portable Stage04 helpers and
+  Node acquisition integrity independently. Stage04 retains legacy Zitadel's
+  macOS >=12 guard; a separately qualified Zitadel pin is a follow-up unit.

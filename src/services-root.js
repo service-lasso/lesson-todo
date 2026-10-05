@@ -8,7 +8,7 @@ const profileRoot = fileURLToPath(new URL('../profiles/', import.meta.url));
 const qualifiedProfiles = new Map([
   [path.join('@secretsbroker', 'service.json'), {
     relative: path.join('broker', 'service-darwin-amd64-macos11.json'),
-    sha256: '421af7fddf1b37af293fe2be1f6265390e5d930197f1e7535a271d982b21ad67'
+    sha256: 'dd6fbd9fb9747b34b49ad9ab09e1c8bd29f10d2cb4df91e58e4d9b146f036ada'
   }]
 ]);
 

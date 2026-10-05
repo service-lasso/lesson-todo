@@ -38,6 +38,10 @@ test('each checkpoint has complete resolved dependencies, exact pins and indepen
     for(const serviceId of lesson.services){const m=JSON.parse(await readFile(path.join(config.sourceServicesRoot,serviceId,'service.json')));assert.equal(m.id,serviceId);inventory.set(serviceId,m);assert.ok(m.artifact.source.tag);assert.equal(m.artifact.source.channel,undefined);}
     for(const m of inventory.values())for(const dependency of m.depend_on??[])assert.ok(inventory.has(dependency),`${id}: ${dependency}`);
     assert.equal(inventory.get('todo').artifact.source.tag,'2026.10.4-15dc4b9');
+    const broker=inventory.get('@secretsbroker');
+    assert.equal(broker.artifact.source.tag,'2026.10.5-301b426');
+    for(const platform of ['win32','linux','darwin'])
+      assert.deepEqual(broker.artifact.platforms[platform].checksum,{algorithm:'sha256',assetName:'SHA256SUMS.txt'});
     const node=inventory.get('@node');
     assert.equal(node.version,'v22.23.3');
     assert.equal(node.artifact.source.tag,'2026.10.5-4b473fb');

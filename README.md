@@ -24,7 +24,7 @@ against the published `SHA256SUMS.txt`; [Node provenance](profiles/node/source.j
 records the exact tag and checksum inventory.
 
 Fresh Intel checkpoints select the qualified Broker macOS 11 compatibility
-profile from [release 2026.10.5-9c0b0e6](https://github.com/service-lasso/lasso-secretsbroker/releases/tag/2026.10.5-9c0b0e6).
+profile from [release 2026.10.5-301b426](https://github.com/service-lasso/lasso-secretsbroker/releases/tag/2026.10.5-301b426).
 The checked-in profile bytes and [provenance](profiles/broker/source.json) bind
 the exact producer and checksum; native Broker and public Core acquisition,
 secret lookup and restart checks passed. ARM uses the default Broker profile

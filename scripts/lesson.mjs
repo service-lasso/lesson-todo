@@ -26,9 +26,9 @@ export async function assertOwnedTree(target, root = repoRoot) {
   }
 }
 export const brokerMacos11 = {
-  tag: '2026.10.5-9c0b0e6',
+  tag: '2026.10.5-301b426',
   asset: 'secretsbroker-darwin-amd64-macos11.tar.gz',
-  profileSha256: '421af7fddf1b37af293fe2be1f6265390e5d930197f1e7535a271d982b21ad67'
+  profileSha256: 'dd6fbd9fb9747b34b49ad9ab09e1c8bd29f10d2cb4df91e58e4d9b146f036ada'
 };
 export async function assertPlatformPrerequisites(config, { platform = process.platform, arch = process.arch, macosVersion } = {}) {
   if (platform !== 'darwin') return;

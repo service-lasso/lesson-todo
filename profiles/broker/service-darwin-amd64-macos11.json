@@ -1,7 +1,7 @@
 {
   "id": "@secretsbroker",
   "name": "Service Lasso Secrets Broker",
-  "description": "Lean local-first Vault-like secrets broker for Service Lasso bootstrap, service identities, policy, audit, and secret resolution. Explicit custom maintained-Go 1.26.8 compatibility profile; select only on Intel macOS 11. Select the default manifest for ARM64.",
+  "description": "Lean local-first Vault-like secrets broker for Service Lasso bootstrap, service identities, policy, audit, and secret resolution. Explicit custom maintained-Go 1.26.8 compatibility profile; select only on Intel macOS 11. Core-managed authenticated native IPC; select the default manifest for ARM64.",
   "enabled": true,
   "version": "0.1.0",
   "logoutput": true,
@@ -54,7 +54,7 @@
     "source": {
       "type": "github-release",
       "repo": "service-lasso/lasso-secretsbroker",
-      "tag": "2026.10.5-9c0b0e6"
+      "tag": "2026.10.5-301b426"
     },
     "platforms": {
       "win32": {
@@ -116,70 +116,18 @@
     ],
     "env": {
       "SECRETSBROKER_STATE": "setup_needed",
-      "SECRETSBROKER_LISTEN": "127.0.0.1:${endpoint.api.port}"
+      "SECRETSBROKER_MODE": "production",
+      "SECRETSBROKER_TRANSPORT": "auto"
     },
     "depend_on": []
   },
   "healthchecks": [
     {
-      "id": "secretsbroker-http-health",
-      "type": "http",
-      "url": "${endpoint.health.url}",
-      "timeoutSeconds": 5
-    }
-  ],
-  "endpoints": [
-    {
-      "id": "api",
-      "kind": "network",
-      "label": "Secrets Broker API",
-      "direction": "inbound",
-      "transport": "tcp",
-      "protocol": "http",
-      "bind": "127.0.0.1",
-      "port": {
-        "default": 17890,
-        "strategy": "preferred"
-      },
-      "exposure": "local",
+      "id": "secretsbroker-process-health",
+      "type": "process",
       "required": true,
-      "primary": true
-    },
-    {
-      "id": "health",
-      "kind": "url",
-      "label": "Health",
-      "target": "api",
-      "url": "http://${endpoint.api.bind}:${endpoint.api.port}/health",
-      "exposure": "local",
-      "required": true
-    },
-    {
-      "id": "ready",
-      "kind": "url",
-      "label": "Readiness",
-      "target": "api",
-      "url": "http://${endpoint.api.bind}:${endpoint.api.port}/ready",
-      "exposure": "local",
-      "required": true
-    },
-    {
-      "id": "status",
-      "kind": "url",
-      "label": "Status",
-      "target": "api",
-      "url": "http://${endpoint.api.bind}:${endpoint.api.port}/status",
-      "exposure": "local",
-      "required": true
-    },
-    {
-      "id": "capabilities",
-      "kind": "url",
-      "label": "Capabilities",
-      "target": "api",
-      "url": "http://${endpoint.api.bind}:${endpoint.api.port}/capabilities",
-      "exposure": "local",
-      "required": true
+      "retries": 80,
+      "interval": 250
     }
   ]
 }

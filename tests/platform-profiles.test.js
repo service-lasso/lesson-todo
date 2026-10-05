@@ -63,8 +63,23 @@ test('LESSON-2/6: linked override source fails complete preflight before destina
   await writeFile(path.join(root, 'outside', 'profile.json'), '{}');
   await symlink(path.join(root, 'outside'), path.join(root, 'linked'), process.platform === 'win32' ? 'junction' : 'dir');
   config.seedFileOverrides = { [path.join('@secretsbroker', 'service.json')]: path.join(root, 'linked', 'profile.json') };
-  await assert.rejects(prepareStarterServicesRoot(config), /links/);
+  await assert.rejects(prepareStarterServicesRoot(config), /qualified source/);
   await assert.rejects(readFile(path.join(config.servicesRoot, '@secretsbroker', 'service.json')), { code: 'ENOENT' });
+}));
+
+test('LESSON-2/6: plain external, aliased and unqualified profile overrides reject before any writes', () => fixture(async (config, root) => {
+  const outside = path.join(root, 'external.json');
+  await writeFile(outside, '{}');
+  const sources = [outside, path.join(root, '..', path.basename(root), 'external.json'),
+    path.join(config.repoRoot, 'profiles', 'broker', '..', 'unqualified.json')];
+  for (const source of sources) {
+    await assert.rejects(prepareStarterServicesRoot({ ...config, seedFileOverrides: { [path.join('@secretsbroker', 'service.json')]: source } }), /qualified source/);
+    await assert.rejects(readdir(config.servicesRoot), { code: 'ENOENT' });
+  }
+  await assertPlatformPrerequisites(config, intel11);
+  const approved = config.seedFileOverrides[path.join('@secretsbroker', 'service.json')];
+  await assert.rejects(prepareStarterServicesRoot({ ...config, seedFileOverrides: { [path.join('todo', 'service.json')]: approved } }), /qualified source/);
+  await assert.rejects(readdir(config.servicesRoot), { code: 'ENOENT' });
 }));
 
 test('LESSON-2/6: altered compatibility profile rejects before creating services', () => fixture(async (config, root) => {

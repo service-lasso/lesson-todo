@@ -1,0 +1,18 @@
+{
+  "id": "01-app",
+  "article": "https://service-lasso.github.io/service-lasso/getting-started/beginner-todo-app",
+  "services": [
+    "@node",
+    "@python",
+    "@java",
+    "@localcert",
+    "@nginx",
+    "@traefik",
+    "@serviceadmin",
+    "echo-service",
+    "@secretsbroker",
+    "todo"
+  ],
+  "host": "../../src/lesson-host.mjs",
+  "workspace": "../../.workspace/01-app"
+}

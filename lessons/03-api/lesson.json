@@ -1,0 +1,20 @@
+{
+  "id": "03-api",
+  "article": "https://service-lasso.github.io/service-lasso/getting-started/advanced-add-go-todo-api-service",
+  "services": [
+    "@node",
+    "@python",
+    "@java",
+    "@localcert",
+    "@nginx",
+    "@traefik",
+    "@serviceadmin",
+    "echo-service",
+    "@secretsbroker",
+    "todo",
+    "postgres",
+    "todo-api"
+  ],
+  "host": "../../src/lesson-host.mjs",
+  "workspace": "../../.workspace/03-api"
+}

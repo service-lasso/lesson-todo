@@ -2,6 +2,6 @@
 
 - [x] Generate from the Node host template with develop as the working branch.
 - [x] Bind issue #1 to active intent/spec before implementation.
-- [ ] Implement five checkpoints and shared safe setup/run tooling.
+- [x] Implement five checkpoints and shared safe setup/run tooling.
 - [ ] Independent review, host/managed/native verification and develop PR.
 - [ ] Publish corresponding Core article links and verify live.

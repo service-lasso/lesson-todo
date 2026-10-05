@@ -1,0 +1,19 @@
+{
+  "id": "02-database",
+  "article": "https://service-lasso.github.io/service-lasso/getting-started/intermediate-make-todo-app-durable",
+  "services": [
+    "@node",
+    "@python",
+    "@java",
+    "@localcert",
+    "@nginx",
+    "@traefik",
+    "@serviceadmin",
+    "echo-service",
+    "@secretsbroker",
+    "todo",
+    "postgres"
+  ],
+  "host": "../../src/lesson-host.mjs",
+  "workspace": "../../.workspace/02-database"
+}

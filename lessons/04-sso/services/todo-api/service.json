@@ -1,0 +1,89 @@
+{
+  "id": "todo-api",
+  "name": "Go Todo API",
+  "description": "Template-derived managed Go Todo API backed by PostgreSQL.",
+  "version": "2026.10.4-02ef566",
+  "enabled": false,
+  "depend_on": [
+    "postgres"
+  ],
+  "endpoints": [
+    {
+      "id": "web",
+      "kind": "network",
+      "transport": "tcp",
+      "protocol": "http",
+      "bind": "127.0.0.1",
+      "port": {
+        "default": 18553,
+        "strategy": "preferred"
+      },
+      "exposure": "local",
+      "primary": true
+    }
+  ],
+  "env": {
+    "TODO_API_AUTH_CONTRACT": "zitadel-introspection-v1",
+    "TODO_API_AUTH_MODE": "zitadel",
+    "TODO_API_PORT": "${endpoint.web.port}",
+    "TODO_DATABASE_STATE": "${SERVICE_ROOT}/../postgres/.state/runtime.json"
+  },
+  "meta": {
+    "apiAuthContract": "zitadel-introspection-v1",
+    "license": "Apache-2.0",
+    "repository": {
+      "type": "git",
+      "url": "https://github.com/service-lasso/lasso-todo-api.git"
+    },
+    "documentationUrl": "https://github.com/service-lasso/lasso-todo-api/blob/develop/README.md",
+    "issuesUrl": "https://github.com/service-lasso/lasso-todo-api/issues"
+  },
+  "artifact": {
+    "kind": "archive",
+    "source": {
+      "type": "github-release",
+      "repo": "service-lasso/lasso-todo-api",
+      "tag": "2026.10.4-02ef566"
+    },
+    "platforms": {
+      "win32": {
+        "assetName": "lasso-todo-api-win32.zip",
+        "archiveType": "zip",
+        "command": "./runtime/todo-api.exe",
+        "args": [],
+        "checksum": {
+          "algorithm": "sha256",
+          "assetName": "SHA256SUMS.txt"
+        }
+      },
+      "linux": {
+        "assetName": "lasso-todo-api-linux.tar.gz",
+        "archiveType": "tar.gz",
+        "command": "./runtime/todo-api",
+        "args": [],
+        "checksum": {
+          "algorithm": "sha256",
+          "assetName": "SHA256SUMS.txt"
+        }
+      },
+      "darwin": {
+        "assetName": "lasso-todo-api-darwin.tar.gz",
+        "archiveType": "tar.gz",
+        "command": "./runtime/todo-api",
+        "args": [],
+        "checksum": {
+          "algorithm": "sha256",
+          "assetName": "SHA256SUMS.txt"
+        }
+      }
+    }
+  },
+  "healthcheck": {
+    "id": "http-health",
+    "type": "http",
+    "url": "http://127.0.0.1:${endpoint.web.port}/healthz",
+    "expected_status": 200,
+    "retries": 80,
+    "interval": 250
+  }
+}

@@ -1,0 +1,24 @@
+{
+  "id": "05-desktop",
+  "article": "https://service-lasso.github.io/service-lasso/getting-started/package-todo-tauri",
+  "services": [
+    "@node",
+    "@python",
+    "@java",
+    "@localcert",
+    "@nginx",
+    "@traefik",
+    "@serviceadmin",
+    "echo-service",
+    "@secretsbroker",
+    "todo",
+    "postgres",
+    "todo-api"
+  ],
+  "host": "../../src/lesson-host.mjs",
+  "workspace": "../../.workspace/05-desktop",
+  "desktopTemplate": {
+    "repo": "service-lasso/service-lasso-app-tauri",
+    "commit": "2ae33f49507154af14776cee4c4b86625c4d27ee"
+  }
+}

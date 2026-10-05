@@ -1,17 +1,25 @@
 {
-  "name": "@service-lasso/service-lasso-app-node",
+  "name": "@service-lasso/lesson-todo",
   "version": "0.1.0",
   "private": true,
-  "description": "Template repo for a plain-Node Service Lasso app host.",
+  "description": "Five complete progressive Todo application checkpoints",
   "license": "Apache-2.0",
   "type": "module",
   "scripts": {
     "start": "node src/index.js",
     "test": "node --test --test-concurrency=1 tests/**/*.test.js",
     "release:artifact": "node scripts/release-artifact.mjs",
-    "release:verify": "node scripts/release-verify.mjs"
+    "release:verify": "node scripts/release-verify.mjs",
+    "setup": "node scripts/lesson.mjs setup",
+    "lesson:01": "node scripts/lesson.mjs run 01",
+    "lesson:02": "node scripts/lesson.mjs run 02",
+    "lesson:03": "node scripts/lesson.mjs run 03",
+    "lesson:04": "node scripts/lesson.mjs run 04",
+    "lesson:05": "node scripts/lesson.mjs run 05",
+    "desktop:build": "node lessons/05-desktop/build.mjs"
   },
   "dependencies": {
-    "@service-lasso/service-lasso": "latest"
+    "@service-lasso/service-lasso": "2026.9.22-f3de461",
+    "tar": "7.5.22"
   }
 }

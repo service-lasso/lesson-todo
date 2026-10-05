@@ -3,12 +3,17 @@ import { constants } from "node:fs";
 import { copyFile, lstat, mkdir, readdir, readFile, writeFile } from "node:fs/promises";
 import { createHash } from "node:crypto";
 import { fileURLToPath } from "node:url";
+import { zitadelMacos11 } from './qualified-zitadel.js';
 
 const profileRoot = fileURLToPath(new URL('../profiles/', import.meta.url));
 const qualifiedProfiles = new Map([
   [path.join('@secretsbroker', 'service.json'), {
     relative: path.join('broker', 'service-darwin-amd64-macos11.json'),
     sha256: 'dd6fbd9fb9747b34b49ad9ab09e1c8bd29f10d2cb4df91e58e4d9b146f036ada'
+  }],
+  [path.join('zitadel', 'service.json'), {
+    relative: path.join('zitadel', 'service-darwin-amd64-macos11.json'),
+    sha256: zitadelMacos11.profileSha256
   }]
 ]);
 
@@ -101,6 +106,13 @@ export async function preflightStarterServicesRoot(config) {
     if (createHash('sha256').update(profileBytes).digest('hex') !== approved.sha256)
       throw Error('Platform profile checksum mismatch; no files changed.');
     const producer = JSON.parse(profileBytes);
+    if (relative === path.join('zitadel', 'service.json')) {
+      if (producer.artifact?.platforms?.darwin?.assetName !== zitadelMacos11.asset)
+        throw Error('Zitadel profile requires its exact qualified Intel archive.');
+      for (const platform of Object.values(producer.artifact.platforms))
+        platform.checksum = { algorithm: 'sha256', assetName: 'SHA256SUMS.txt' };
+      producer.artifact.platforms.darwin.checksum = { algorithm: 'sha256', value: zitadelMacos11.archiveSha256 };
+    }
     const consumer = JSON.parse(await readFile(entry.source, 'utf8'));
     if (consumer.id !== producer.id || consumer.artifact?.source?.repo !== producer.artifact?.source?.repo ||
       consumer.artifact.source.tag !== producer.artifact.source.tag)

@@ -1,0 +1,24 @@
+{
+  "repository": "service-lasso/lasso-zitadel",
+  "tag": "2026.10.5-d7e04eb",
+  "commit": "d7e04ebd9489ddc8c6798e408cd8ce7992711146",
+  "publicationWorkflowRun": 37327998201,
+  "ownerReceipt": "https://github.com/service-lasso/lasso-zitadel/issues/10#issuecomment-5999200927",
+  "profileAsset": "service-darwin-amd64-macos11.json",
+  "profileSha256": "a7da28a3d851fb626c92094d5baefcf7a91ba72a63ba2d9218c74abb6be0e36e",
+  "archiveAsset": "lasso-zitadel-v4.14.0-darwin-amd64-macos11.tar.gz",
+  "archiveSha256": "24538a0a1ac2ea236416222816711ef786701a113e968c96027f2478f407f169",
+  "checksumAssetSha256": "fd57cdb6f54269fbce03843ec0e7ba79387fef5823e6b0fc4ef7b122aa106aa0",
+  "compatibilityCustody": {
+    "lasso-zitadel-v4.14.0-darwin-amd64-macos11.tar.gz": "24538a0a1ac2ea236416222816711ef786701a113e968c96027f2478f407f169",
+    "macos11-api-generator-inventory.json": "92997bf0fda08d195486779597ea21fafd91feac82b5fe08de9d2ba38f1b4e0d",
+    "macos11-asset-provenance.json": "dc11d60cd03a8b8473ad1f92277940b0f43dc0a5f118481cf6372a592e43eb1b",
+    "macos11-build-provenance.json": "e5811a2ed1a91d2fd8128e2edea61f448b97333de85d6c599ceb315387657df8",
+    "macos11-go-trust-probe-amd64": "c341be9a0984d7b8a9cd544cca1871d1080d0f50d9c4550f2b181d67a8201905",
+    "macos11-native-receipt.json": "e85a8b9447ab5364c3d1ad0be3529022072f9e8877fcf40f8137606b237b1d27",
+    "macos11-security-scan.json": "cc678f568e02928964921afe18aff3c575508a7545b1445486442245516b2144",
+    "service-darwin-amd64-macos11.json": "a7da28a3d851fb626c92094d5baefcf7a91ba72a63ba2d9218c74abb6be0e36e"
+  },
+  "consumerSelection": "Only artifact fields overlay curated seeds. Exact Intel archive digest added from qualified public checksum inventory; other packages use SHA256SUMS. Identity configuration preserves this inline digest, TLS, database, BrokerRefs, selected port and health policy.",
+  "qualification": "All eight actual full-source/binary security scans, five hosted native gates and actual Intel macOS11 native/paired PKCE/API SQL negative/restart/logout gates passed before protected publication. All 13 public digests/sizes and seven compatibility byte matches verified. Literal lesson04 public consumption remains separate and pending; no ARM11 or native Mac desktop claim."
+}

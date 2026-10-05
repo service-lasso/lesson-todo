@@ -1,7 +1,7 @@
 # Backlog
 
-- #9 preparation in_progress; product implementation blocked on public qualified
-  ZITADEL profile/native receipt -> SPEC-LESSONS LESSON-2/4/6;
+- #9 implementation in_progress; public ZITADEL d7e04eb qualification received
+  (run 37327998201, owner receipt issue10comment5999200927) -> SPEC-LESSONS LESSON-2/4/6;
   STAGE04-MACOS11-PLAN.md. Preparation does not claim native lesson acceptance.
   Fresh author accepted the retired-preparation handoff on the existing PR #10
   branch; prerequisite PR #8 is landed. Parent supplies qualification trigger

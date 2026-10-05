@@ -2,7 +2,8 @@
 
 - [x] Issue #9: bind Stage 04 qualified Intel 11 consumption to intent/spec and
   record preparation plan without changing product pins or platform guards.
-- [ ] Issue #9: receive public qualified ZITADEL tag/profile/hash/native receipt;
+- [x] Issue #9: receive public qualified ZITADEL tag/profile/hash/native receipt.
+- [ ] Issue #9:
   implement bounded artifact overlay, CI/fresh review and literal native SSO
   acceptance, then separately publish/verify the corresponding Core article.
 

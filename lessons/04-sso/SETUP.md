@@ -4,6 +4,13 @@ Run `npm run setup -- 04`, then `npm run lesson:04 -- --management`. Keep the pr
 Core origin. Complete Broker first-run setup in Admin and retain its private state.
 The App/API seeds are disabled; default launch stays blocked until configuration is paired.
 
+Fresh Intel macOS 11 selects the exact public ZITADEL
+`2026.10.5-d7e04eb` profile and immutable archive digest before setup writes.
+ARM/default and retained legacy identity require macOS 12. Use a separate fresh
+checkout for these pins; setup preserves existing manifests and acquired bytes.
+The configuration helper accepts only this exact release and preserves its
+selected archive checksum and allocated identity port.
+
 Stop managed App/API/Identity before changing manifests. Configure exact Identity and
 dedicated certificates (this edits manifests only):
 
@@ -51,6 +58,9 @@ In Identity register a **Web PKCE** client with the actual Todo callback/logout 
 a **Basic API** client for token introspection, both in the same project. Keep the API secret
 in an absolute private file outside this checkout and outside any bundle. Retain its access
 permissions. Record the public Web ID, project audience and API client ID.
+On macOS/Linux, protect that absolute secret file with `chmod 600 '<absolute private secret file>'`
+inside a private directory (`chmod 700 '<private directory>'`). Never place its
+value in terminal arguments, environment dumps, screenshots or repository files.
 
 Install Todo through Admin to acquire its verified archive. Find its artifact directory
 in Admin's safe lifecycle metadata. Use that archive's `configure-sso.mjs`:

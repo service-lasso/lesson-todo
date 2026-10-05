@@ -62,7 +62,9 @@ test('LESSON-2/6: unknown CPU, unsupported OS, missing profile and legacy identi
   for (const options of [{ ...intel11, arch: 'unknown' }, { ...intel11, macosVersion: '10.15' }, { ...intel11, macosVersion: 'unknown' }])
     await assert.rejects(assertPlatformPrerequisites(config, options));
   await assert.rejects(assertPlatformPrerequisites({ ...config, repoRoot: root }, intel11), { code: 'ENOENT' });
-  await assert.rejects(assertPlatformPrerequisites({ ...lessonPaths('04'), servicesRoot: config.servicesRoot }, intel11), /Zitadel profile.*macOS 12/);
+  // A fresh Stage04 profile is qualified by issue #9; an absent approved
+  // profile must still reject before destination writes.
+  await assert.rejects(assertPlatformPrerequisites({ ...lessonPaths('04'), servicesRoot: config.servicesRoot, repoRoot: root }, intel11), { code: 'ENOENT' });
   assert.deepEqual(await readdir(root), []);
 }));
 

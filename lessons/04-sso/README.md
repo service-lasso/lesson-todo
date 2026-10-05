@@ -35,7 +35,7 @@ flowchart LR
 | Identity | [zitadel](services/zitadel/service.json) | Authenticate users | Disabled |
 | Certificates | [@todo-certs](services/@todo-certs/service.json) | Provide local Identity HTTPS | Disabled |
 
-Prerequisites: host Node 22 or newer; fresh Intel macOS 11 uses the qualified Broker compatibility profile; ARM and retained legacy Broker require macOS 12. Stage04 also requires macOS 12 until its Zitadel compatibility profile is qualified. Managed Node is pinned to 22.23.3 (its binary minimum is macOS 11). Production use requires an OS still supported by its vendor. Existing Node 24 state requires macOS 13.5 or newer and is retained by setup. See [platform prerequisites](../../README.md#platform-prerequisites).
+Prerequisites: host Node 22 or newer; fresh Intel macOS 11 uses the qualified Broker compatibility profile; ARM and retained legacy Broker require macOS 12. Stage04 fresh Intel macOS 11 selects the qualified ZITADEL compatibility profile from `2026.10.5-d7e04eb`; ARM/default and retained legacy identity require macOS 12. Managed Node is pinned to 22.23.3 (its binary minimum is macOS 11). Production use requires an OS still supported by its vendor. Existing Node 24 state requires macOS 13.5 or newer and is retained by setup. See [platform prerequisites](../../README.md#platform-prerequisites).
 
 From the repository root, with Node 22 or newer:
 
@@ -69,7 +69,7 @@ The disabled inherited `@serviceadmin` manifest is inventory provenance only. Th
 - todo: [source and release 2026.10.4-15dc4b9](https://github.com/service-lasso/lasso-todo/releases/tag/2026.10.4-15dc4b9).
 - postgres: [source and release 2026.10.4-1af7982](https://github.com/service-lasso/lasso-postgres/releases/tag/2026.10.4-1af7982).
 - todo-api: [source and release 2026.10.4-02ef566](https://github.com/service-lasso/lasso-todo-api/releases/tag/2026.10.4-02ef566).
-- zitadel: [source and release 2026.9.25-93d4c84](https://github.com/service-lasso/lasso-zitadel/releases/tag/2026.9.25-93d4c84).
+- zitadel: [source and release 2026.10.5-d7e04eb](https://github.com/service-lasso/lasso-zitadel/releases/tag/2026.10.5-d7e04eb).
 - @todo-certs: [source and release 2026.9.25-588398b](https://github.com/service-lasso/lasso-localcert/releases/tag/2026.9.25-588398b).
 
 Canonical implementations remain in those producer repositories. This folder owns the assembly. [Host](../../src/lesson-host.mjs), [safe setup](../../scripts/lesson.mjs), [provenance](../../PROVENANCE.md).

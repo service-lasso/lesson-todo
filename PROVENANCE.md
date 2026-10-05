@@ -27,3 +27,11 @@ and runs its own locked native build with lesson 05's complete inventory. Its Ru
 desktop assets, Node sidecar, package lock and payload preparation remain exact upstream
 source. Generated output is ignored. Neither source nor bundles include workspace state,
 operator secrets, private certificate authority or databases.
+
+Qualified identity release `2026.10.5-d7e04eb` targets full producer
+`d7e04ebd9489ddc8c6798e408cd8ce7992711146`. The original public Intel 11
+profile and exact checksum inventory are retained under [profiles/zitadel](profiles/zitadel/source.json).
+Fresh standard packages share the repaired release. The Intel artifact overlay adds
+its exact published inline archive SHA-256 and preserves curated configuration.
+Producer security/native/publication qualification and literal lesson consumption
+remain separate; no ARM macOS 11 or Mac desktop executable qualification is claimed.

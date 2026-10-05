@@ -64,8 +64,14 @@ test('macOS preflight distinguishes full Broker stack from retained Node provide
   const config={servicesRoot:path.join(root,'services')};
   try {
     await assert.rejects(assertPlatformPrerequisites(config,{platform:'darwin',macosVersion:'11.7.11'}),/Broker stack.*macOS 12/);
-    // The public setup entry must reject before Admin acquisition or state preparation.
-    await assert.rejects(prepareLesson('04',{platform:'darwin',arch:'x64',macosVersion:'11.7.11'}),/Zitadel profile.*macOS 12/);
+    // Issue #9 changes fresh identity selection; retained legacy identity still
+    // rejects before acquisition or writes, without replacing its manifest.
+    await mkdir(path.join(root,'services','zitadel'),{recursive:true});
+    const legacyIdentity = '{"id":"zitadel","artifact":{"source":{"tag":"2026.9.25-93d4c84"}}}';
+    const legacyIdentityFile = path.join(root,'services','zitadel','service.json');
+    await writeFile(legacyIdentityFile,legacyIdentity);
+    await assert.rejects(assertPlatformPrerequisites({...lessonPaths('04'),servicesRoot:config.servicesRoot},{platform:'darwin',arch:'x64',macosVersion:'11.7.11'}),/Zitadel profile.*macOS 12/);
+    assert.equal(await readFile(legacyIdentityFile,'utf8'),legacyIdentity);
     await assert.doesNotReject(assertPlatformPrerequisites(config,{platform:'darwin',macosVersion:'12.0'}));
     await assert.rejects(assertPlatformPrerequisites(config,{platform:'darwin',macosVersion:'unknown'}),/Cannot determine/);
     await mkdir(path.join(config.servicesRoot,'@node'),{recursive:true});

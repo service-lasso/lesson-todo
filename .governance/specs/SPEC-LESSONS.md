@@ -2,7 +2,14 @@
 
 Issue #9 / LESSON-2/4/6: Stage 04 fresh Intel macOS 11 may consume only an
 exact publicly qualified ZITADEL compatibility profile with source/tag/hash and
-native producer receipt. Reuse the static whitelist, same-buffer SHA-256/parse,
+native producer receipt. Qualified release `2026.10.5-d7e04eb` is now public
+at full SHA `d7e04ebd9489ddc8c6798e408cd8ce7992711146`. Fresh standard
+and Intel 11 identity seeds use this same security-repaired release. Preserve
+the Intel archive's exact inline SHA-256 through identity configuration; default
+packages use published SHA256SUMS. The former fresh-04 rejection assertion now
+applies to retained legacy identity, with no mutation. Separate new tests prove
+fresh Intel selection; the protected legacy/no-write gate remains required.
+Reuse the static whitelist, same-buffer SHA-256/parse,
 artifact-only curated overlay and exclusive seed writes. Keep retained legacy
 ZITADEL >=12, ARM/default >=12, unknown CPU rejection, HTTPS/TLS/Broker/DB policy,
 current Todo/API pins and private paired API secret-file contract. No candidate
@@ -74,8 +81,8 @@ with exclusive creation. Validate the complete seed and
 override source/destination boundary before writes; reject unsupported CPUs,
 unknown OS versions and missing profiles. Retained manifests, credentials and
 acquired bytes are never replaced. Legacy Broker requires macOS 12; retained
-Node 24 requires 13.5. Stage04's legacy Zitadel still requires macOS 12 until
-its exact qualified compatibility profile is consumed. Preserve these gates
+Node 24 requires 13.5. Stage04's retained legacy Zitadel still requires macOS 12;
+fresh exact issue9 compatibility selection permits Intel macOS 11. Preserve these gates
 and distinguish qualified producer proof from complete native lesson proof.
 
 Issue #4 / LESSON-2/6 acquisition integrity: All fresh Node 22.23.3 consumer

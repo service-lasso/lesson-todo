@@ -1,8 +1,7 @@
 # Issue #9 — qualified Stage 04 Intel macOS 11 consumption
 
-Development mode; preparation only. Base: develop
-`3b8b3acf388d275d76df6afc5c28afacb4795102`. No product pins or runtime
-behavior change is authorized by this preparation artifact.
+Development mode; implementation active after exact public custody. Base: develop
+`3b8b3acf388d275d76df6afc5c28afacb4795102`. Parent released the exact public implementation gate on 2026-10-06.
 
 ## Reconciled prerequisites
 
@@ -104,3 +103,17 @@ PR is open; one writer owns it. Resume only with the required producer handoff.
 The active author remains available for that handoff. Evidence stays in the
 parent-designated private issue #9 evidence bundle; no secrets or private runtime
 receipts belong in this repository.
+
+## Public implementation checkpoint 2026-10-06
+
+Fresh author owns existing issue9/PR10 from frozen preparation df95942. Parent
+verified public release `2026.10.5-d7e04eb`, full SHA
+`d7e04ebd9489ddc8c6798e408cd8ce7992711146`, terminal producer
+37327998201 SUCCESS, all13 public asset digests/sizes, twelve checksum lines and
+seven staged/public byte matches. Owner receipt issue10comment5999200927
+was strictly verified before protected publication. Exact profile SHA-256
+`a7da28a3d851fb626c92094d5baefcf7a91ba72a63ba2d9218c74abb6be0e36e`
+and archive `24538a0a1ac2ea236416222816711ef786701a113e968c96027f2478f407f169`
+now authorize the bounded product selection and helper reconciliation.
+Historical preparation statements above record the previous hold, now satisfied.
+Literal lesson04 native acceptance, exact hosted CI and fresh review remain pending.

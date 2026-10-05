@@ -1,5 +1,6 @@
 import { readFile, writeFile, mkdir } from 'node:fs/promises';
 import path from 'node:path';
+import { zitadelMacos11, isQualifiedIntelIdentity } from '../../../src/qualified-zitadel.js';
 
 const [directory, certificateImports, databaseName = 'zitadel_todo'] = process.argv.slice(2);
 if (!directory || !certificateImports || !/^[a-z][a-z0-9_]{0,62}$/.test(databaseName)) throw Error('Use configure-identity.mjs <tutorial-services-root> <certificate-import-root> [new-identity-database-name]; stop app services first.');
@@ -7,7 +8,7 @@ const root = path.resolve(directory);
 const expected = [
   ['@localcert', 'lasso-localcert', '2026.9.25-588398b'],
   ['postgres', 'lasso-postgres', '2026.10.4-1af7982'],
-  ['zitadel', 'lasso-zitadel', '2026.9.25-93d4c84']
+  ['zitadel', 'lasso-zitadel', zitadelMacos11.tag]
 ];
 const manifests = await Promise.all(expected.map(async ([id, repo, tag]) => {
   const inputFile = path.join(id === '@localcert' ? path.resolve(certificateImports) : root, id, 'service.json');
@@ -16,6 +17,8 @@ const manifests = await Promise.all(expected.map(async ([id, repo, tag]) => {
   return { file, manifest };
 }));
 const [certificate, postgres, identity] = manifests.map(entry => entry.manifest);
+if (identity.artifact.platforms?.darwin?.assetName === zitadelMacos11.asset && !isQualifiedIntelIdentity(identity))
+  throw Error('Identity compatibility archive must retain its exact qualified SHA-256; no files changed.');
 certificate.id = '@todo-certs';
 certificate.name = 'Todo Certificates';
 certificate.depend_on = (certificate.depend_on ?? []).filter(id => id !== '@java');
@@ -60,7 +63,11 @@ identity.healthcheck = { id: 'identity-ready', type: 'http', url: 'https://local
 delete identity.healthchecks;
 identity.urls = [{ label: 'console', url: 'https://localhost:${HTTP_PORT}/ui/console/', kind: 'local' }, { label: 'issuer', url: 'https://localhost:${HTTP_PORT}', kind: 'local' }];
 for (const entry of manifests) {
-  for (const platform of Object.values(entry.manifest.artifact.platforms)) platform.checksum = { algorithm: 'sha256', assetName: 'SHA256SUMS.txt' };
+  for (const platform of Object.values(entry.manifest.artifact.platforms)) {
+    // Keep the stronger immutable inline digest selected for Intel macOS 11.
+    if (entry.manifest.id === 'zitadel' && platform.assetName === zitadelMacos11.asset) continue;
+    platform.checksum = { algorithm: 'sha256', assetName: 'SHA256SUMS.txt' };
+  }
   delete entry.manifest.artifact.source.channel;
   await mkdir(path.dirname(entry.file), { recursive: true });
   await writeFile(entry.file, JSON.stringify(entry.manifest, null, 2) + '\n');

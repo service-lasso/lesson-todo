@@ -21,38 +21,54 @@ export async function assertServiceTree(root, retainedState = false, depth = 0) 
   } else if (!entry.isFile()) throw Error('Service preparation requires plain files and directories.');
 }
 
-async function assertWritePath(target) {
+function preparationBoundary(source, destination) {
+  let boundary = path.resolve(source);
+  const target = path.resolve(destination);
+  while (target !== boundary && !target.startsWith(boundary + path.sep)) {
+    const parent = path.dirname(boundary);
+    if (parent === boundary) return boundary;
+    boundary = parent;
+  }
+  return boundary;
+}
+
+async function assertWritePath(target, boundary) {
   let current = path.resolve(target);
   while (true) {
     try {
       const entry = await lstat(current);
       if (entry.isSymbolicLink()) throw Error('Service preparation must not traverse links or junctions.');
     } catch (error) { if (error.code !== 'ENOENT') throw error; }
+    // The shared seed/destination anchor bounds this preparation. System aliases
+    // above it (for example macOS /var -> /private/var) are not owned write paths.
+    if (current === boundary) return;
     const parent = path.dirname(current);
     if (parent === current) return;
     current = parent;
   }
 }
 
-async function seedEntries(source, destination, entries = []) {
-  await assertWritePath(destination);
+async function seedEntries(source, destination, boundary, entries = []) {
+  await assertWritePath(destination, boundary);
   const entry = await lstat(source);
   entries.push({ source, destination, directory: entry.isDirectory() });
   if (entry.isDirectory()) {
-    for (const name of await readdir(source)) await seedEntries(path.join(source, name), path.join(destination, name), entries);
+    for (const name of await readdir(source)) await seedEntries(path.join(source, name), path.join(destination, name), boundary, entries);
   }
   return entries;
 }
 
 export async function prepareStarterServicesRoot(config) {
+  const boundary = preparationBoundary(config.sourceServicesRoot, config.servicesRoot);
+  await assertWritePath(config.sourceServicesRoot, boundary);
   await assertServiceTree(config.sourceServicesRoot);
-  await assertWritePath(config.servicesRoot);
+  await assertWritePath(config.servicesRoot, boundary);
   await assertServiceTree(config.servicesRoot, true);
   // Preflight the complete seed write boundary before creating anything. Even
   // an explicit seed path below .state must not traverse a retained link.
-  const entries = await seedEntries(config.sourceServicesRoot, config.servicesRoot);
+  const entries = await seedEntries(config.sourceServicesRoot, config.servicesRoot, boundary);
   for (const { source, destination, directory } of entries) {
-    await assertWritePath(destination);
+    await assertWritePath(destination, boundary);
     if (directory) await mkdir(destination, { recursive: true });
     else {
       try { await copyFile(source, destination, constants.COPYFILE_EXCL); }

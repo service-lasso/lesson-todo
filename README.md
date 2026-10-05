@@ -22,7 +22,9 @@ npm run lesson:01
 
 Open the printed Admin URL. Complete first-run Broker setup, then install/configure/start
 Todo. Its allocated web endpoint opens the app. Type `shutdown` in the terminal to stop
-only the owned stack. Restart with the same command to retain state.
+only the owned stack. Restart the host with the same command, then start managed services
+in Admin again, dependencies first. The host restart retains state and does not automatically
+start the App stack.
 
 Select another checkpoint explicitly with `npm run setup -- 02` and `npm run lesson:02`
 (through 05). `npm run setup -- --01` also works. Stage 04 starts with

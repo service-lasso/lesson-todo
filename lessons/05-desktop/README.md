@@ -6,13 +6,12 @@ The local API stack gains a native Windows shell built from exact Tauri source. 
 
 ```mermaid
 flowchart LR
-  user[User] --> app
+  user[User] --> desktop["Desktop<br/>(Tauri)"] --> app
   subgraph lasso[Service Lasso]
   app --> api["API<br/>(lasso-todo-api)"]
   api --> db["Database<br/>(lasso-postgres)"]
     app["App<br/>(lasso-todo)"]
   end
-  desktop[Desktop] --> user
 ```
 
 | Purpose | Service | Responsibility | Seed |
@@ -38,13 +37,15 @@ npm run setup -- 05
 npm run lesson:05
 ```
 
-Open the printed loopback Admin URL, complete its local first-run Broker setup, then install/configure/start App services in dependency order. Open Todo's allocated web endpoint. Type `shutdown` in the host terminal or Ctrl+C to stop only this owned stack. Restart with the same command; setup preserves manifests, credentials and data. Do not launch two hosts against the same checkpoint.
+Open the printed loopback Admin URL, complete its local first-run Broker setup, then install/configure/start App services in dependency order. Open Todo's allocated web endpoint. Type `shutdown` in the host terminal or Ctrl+C to stop only this owned stack. Restart the host with the same command, then start the managed services in Admin again, dependencies first. Setup preserves manifests, credentials and data; restarting the host does not automatically start the App stack. Do not launch two hosts against the same checkpoint.
 
 State is isolated under `.workspace/05-desktop` with `services/`, `runtime/` and `registries/instances.json`. Optional `LESSON_HOST_PORT` and `LESSON_API_PORT` select loopback ports; defaults allocate available ports. Admin follows Core's actual port through its same-origin proxy. Core installs checksum-backed archives from exact tags.
 
 Build with `npm run desktop:build` at the repository root; see [native inventory](BUILD.md). The source-bound bootstrap inserts this complete inventory into the exact template under ignored `.native/lesson-05` and compiles the executable. Native compilation, installer UI, WebView sign-in and trust are separate claims.
 
 Public disposable local database defaults are documented by the producer; operator credentials, private CAs and databases are never committed or bundled. Earlier API checkpoints explicitly allow anonymous local access. Setup never changes existing SSO.
+
+The disabled inherited `@serviceadmin` manifest is inventory provenance only. The actual host serves checksum-bound Admin `2026.8.31-f015b44` from `.payload/admin` through its loopback proxy.
 
 ## Source and release inventory
 

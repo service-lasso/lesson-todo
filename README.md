@@ -19,15 +19,23 @@ lasso-node tag `2026.10.5-4b473fb` (producer commit
 `4b473fbbf70e109cce9632d0f59b2e80f1b9a5b5`). The published tag targets that exact commit and its Node 22 asset inventory
 and Windows archive checksum have been verified. Fresh managed consumer proof
 remains separate; source pins alone do not establish a working checkpoint.
+Fresh manifests require normal Core acquisition to verify each Node archive
+against the published `SHA256SUMS.txt`; [Node provenance](profiles/node/source.json)
+records the exact tag and checksum inventory.
 
-The Node 22 binary minimum is macOS 11 on x64 and arm64, but every checkpoint
-also needs Broker: Go 1.26 requires macOS 12 or newer. Setup and run reject
-older macOS before downloading or writing lesson state. Existing managed Node
-24 manifests require macOS 13.5 or newer; setup retains their pins and acquired
-bytes rather than upgrading them. Use a separate fresh checkpoint for a new pin.
-Core management-only execution on macOS 11 is separate evidence; this lesson
-entry starts the Broker-dependent assembly and does not qualify that full stack
-on macOS 11. Binary compatibility is not production OS support: use a vendor-supported OS.
+Fresh Intel checkpoints select the qualified Broker macOS 11 compatibility
+profile from [release 2026.10.5-301b426](https://github.com/service-lasso/lasso-secretsbroker/releases/tag/2026.10.5-301b426).
+The checked-in profile bytes and [provenance](profiles/broker/source.json) bind
+the exact producer and checksum; native Broker and public Core acquisition,
+secret lookup and restart checks passed. ARM uses the default Broker profile
+requiring macOS 12. Stage04 still requires macOS 12 for its older Zitadel profile.
+Setup and run validate the selected profiles before acquisition or state writes.
+Fresh Intel setup merges only artifact fields into the curated lesson manifest,
+preserving its secure Unix transport and process health policy.
+Retained legacy Broker requires macOS 12 and managed Node 24 requires 13.5;
+setup preserves their manifests and acquired bytes. Use a separate fresh
+checkpoint for new pins. Complete native lesson SSO remains a separate gate.
+Binary compatibility is not production OS support: use a vendor-supported OS.
 See [Node 22 platform contract](https://github.com/nodejs/node/blob/v22.23.3/BUILDING.md)
 and [Go 1.26 minimum macOS](https://go.dev/doc/go1.26#darwin).
 Windows desktop compilation remains a separately qualified Windows x64 flow.

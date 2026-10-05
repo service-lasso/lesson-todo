@@ -1,0 +1,133 @@
+{
+  "id": "@secretsbroker",
+  "name": "Service Lasso Secrets Broker",
+  "description": "Lean local-first Vault-like secrets broker for Service Lasso bootstrap, service identities, policy, audit, and secret resolution. Explicit custom maintained-Go 1.26.8 compatibility profile; select only on Intel macOS 11. Core-managed authenticated native IPC; select the default manifest for ARM64.",
+  "enabled": true,
+  "version": "0.1.0",
+  "logoutput": true,
+  "icon": [
+    {
+      "provider": "lucide",
+      "name": "key-round"
+    }
+  ],
+  "servicetype": 50,
+  "servicelocation": 10,
+  "logo": [],
+  "logs": {
+    "default": {
+      "path": "logs/secretsbroker.log"
+    }
+  },
+  "meta": {
+    "developers": [
+      {
+        "name": "Service Lasso contributors"
+      }
+    ],
+    "license": "Apache-2.0",
+    "repository": {
+      "type": "git",
+      "url": "https://github.com/service-lasso/lasso-secretsbroker.git"
+    },
+    "websiteUrl": "https://github.com/service-lasso/lasso-secretsbroker",
+    "documentationUrl": "https://github.com/service-lasso/lasso-secretsbroker/blob/main/README.md",
+    "issuesUrl": "https://github.com/service-lasso/lasso-secretsbroker/issues",
+    "support": {
+      "issuesUrl": "https://github.com/service-lasso/lasso-secretsbroker/issues"
+    },
+    "links": {
+      "repository": "https://github.com/service-lasso/lasso-secretsbroker",
+      "issues": "https://github.com/service-lasso/lasso-secretsbroker/issues",
+      "documentation": "https://github.com/service-lasso/lasso-secretsbroker/blob/main/README.md"
+    },
+    "tags": [
+      "service-lasso",
+      "secrets",
+      "broker",
+      "local-first",
+      "vault-like"
+    ]
+  },
+  "artifact": {
+    "kind": "archive",
+    "source": {
+      "type": "github-release",
+      "repo": "service-lasso/lasso-secretsbroker",
+      "tag": "2026.10.5-301b426"
+    },
+    "platforms": {
+      "win32": {
+        "assetName": "secretsbroker-win32.zip",
+        "archiveType": "zip",
+        "command": "./secretsbroker.exe",
+        "args": [
+          "serve"
+        ],
+        "checksum": {
+          "algorithm": "sha256",
+          "assetName": "SHA256SUMS.txt"
+        }
+      },
+      "darwin": {
+        "assetName": "secretsbroker-darwin-amd64-macos11.tar.gz",
+        "archiveType": "tar.gz",
+        "command": "./secretsbroker",
+        "args": [
+          "serve"
+        ],
+        "checksum": {
+          "algorithm": "sha256",
+          "assetName": "SHA256SUMS.txt"
+        }
+      },
+      "linux": {
+        "assetName": "secretsbroker-linux.tar.gz",
+        "archiveType": "tar.gz",
+        "command": "./secretsbroker",
+        "args": [
+          "serve"
+        ],
+        "checksum": {
+          "algorithm": "sha256",
+          "assetName": "SHA256SUMS.txt"
+        }
+      },
+      "default": {
+        "assetName": "secretsbroker-win32.zip",
+        "archiveType": "zip",
+        "command": "./secretsbroker.exe",
+        "args": [
+          "serve"
+        ],
+        "checksum": {
+          "algorithm": "sha256",
+          "assetName": "SHA256SUMS.txt"
+        }
+      }
+    }
+  },
+  "execconfig": {
+    "serviceorder": 5,
+    "execcwd": ".",
+    "executable": "secretsbroker",
+    "args": [
+      "serve"
+    ],
+    "env": {
+      "SECRETSBROKER_STATE": "setup_needed",
+      "SECRETSBROKER_MODE": "production",
+      "SECRETSBROKER_TRANSPORT": "auto"
+    },
+    "depend_on": []
+  },
+  "healthchecks": [
+    {
+      "id": "secretsbroker-process-health",
+      "type": "process",
+      "required": true,
+      "retries": 80,
+      "interval": 250
+    }
+  ]
+}

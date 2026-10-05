@@ -36,10 +36,40 @@
   proof. Platform prerequisites and full managed stack acceptance stay distinct.
 
 - LESSON-2/3/6, issue #3: Fresh inventories pin managed Node 22.23.3 from
-  exact producer source/tag. Require macOS >=12 for the complete Broker stack
-  before setup writes/downloads or managed launch; retained Node 24 pins require
+  exact producer source/tag. Legacy/default Broker requires macOS >=12; the
+  exact qualified Intel profile described in issue #4 permits macOS >=11.
+  Check selected profiles before setup writes/downloads or managed launch;
+  retained Node 24 pins require
   >=13.5 and are never silently replaced. Node binary macOS >=11 compatibility
   does not qualify the complete stack or EOL production support. Published
   tag/commit identity, checksums and exact consumer startup/CRUD/restart proof
   remain required before a working managed-provider claim. Preserve Big Sur
   Node 24 and Broker failures as separate evidence.
+
+Issue #4 / LESSON-4/6: Stage04 setup must be executable with Node on Windows and
+POSIX terminals without requiring PowerShell. Private bootstrap input uses a
+hidden interactive prompt and a child stdin pipe; abort/invalid input must not
+launch provisioning. CA trust is process-local. Browser acceptance uses an owned
+isolated Chrome profile pinned to the generated leaf SPKI, without OS trust-store
+mutation. Identity configuration retains the selected published manifest port;
+new producer pins require exact publication/checksum qualification before use.
+
+Issue #4 / LESSON-2/4/6 platform profile selection: Fresh Intel macOS 11 may
+select only the checksum-qualified Broker compatibility manifest from
+`2026.10.5-301b426`. ARM uses the default Broker profile requiring macOS 12.
+Profile selection occurs before any acquisition or state writes and merges only
+qualified artifact fields into the curated consumer seed; retain its secure
+Unix transport, endpoint and health policy. Seed only missing manifest files
+with exclusive creation. Validate the complete seed and
+override source/destination boundary before writes; reject unsupported CPUs,
+unknown OS versions and missing profiles. Retained manifests, credentials and
+acquired bytes are never replaced. Legacy Broker requires macOS 12; retained
+Node 24 requires 13.5. Stage04's legacy Zitadel still requires macOS 12 until
+its exact qualified compatibility profile is consumed. Preserve these gates
+and distinguish qualified producer proof from complete native lesson proof.
+
+Issue #4 / LESSON-2/6 acquisition integrity: All fresh Node 22.23.3 consumer
+platform definitions must use the exact published `SHA256SUMS.txt` asset with
+SHA-256 verification during normal Core acquisition. An independent archive
+hash check does not replace this consumer contract. Keep retained inventories
+and acquired runtimes unchanged; preserve this requirement in inventory tests.

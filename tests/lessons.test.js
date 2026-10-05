@@ -38,11 +38,17 @@ test('each checkpoint has complete resolved dependencies, exact pins and indepen
     for(const serviceId of lesson.services){const m=JSON.parse(await readFile(path.join(config.sourceServicesRoot,serviceId,'service.json')));assert.equal(m.id,serviceId);inventory.set(serviceId,m);assert.ok(m.artifact.source.tag);assert.equal(m.artifact.source.channel,undefined);}
     for(const m of inventory.values())for(const dependency of m.depend_on??[])assert.ok(inventory.has(dependency),`${id}: ${dependency}`);
     assert.equal(inventory.get('todo').artifact.source.tag,'2026.10.4-15dc4b9');
+    const broker=inventory.get('@secretsbroker');
+    assert.equal(broker.artifact.source.tag,'2026.10.5-301b426');
+    for(const platform of ['win32','linux','darwin'])
+      assert.deepEqual(broker.artifact.platforms[platform].checksum,{algorithm:'sha256',assetName:'SHA256SUMS.txt'});
     const node=inventory.get('@node');
     assert.equal(node.version,'v22.23.3');
     assert.equal(node.artifact.source.tag,'2026.10.5-4b473fb');
-    for(const [platform,extension] of [['win32','zip'],['linux','tar.gz'],['darwin','tar.gz']])
+    for(const [platform,extension] of [['win32','zip'],['linux','tar.gz'],['darwin','tar.gz']]) {
       assert.equal(node.artifact.platforms[platform].assetName,`lasso-node-v22.23.3-${platform}.${extension}`);
+      assert.deepEqual(node.artifact.platforms[platform].checksum, { algorithm: 'sha256', assetName: 'SHA256SUMS.txt' });
+    }
     for(const unused of ['echo-service','@nginx','@traefik','@localcert'])assert.equal(inventory.get(unused).enabled,false);
     if(inventory.has('todo-api'))assert.equal(inventory.get('todo-api').artifact.source.tag,'2026.10.4-02ef566');
     if(inventory.has('postgres'))assert.equal(inventory.get('postgres').artifact.source.tag,'2026.10.4-1af7982');
@@ -59,7 +65,7 @@ test('macOS preflight distinguishes full Broker stack from retained Node provide
   try {
     await assert.rejects(assertPlatformPrerequisites(config,{platform:'darwin',macosVersion:'11.7.11'}),/Broker stack.*macOS 12/);
     // The public setup entry must reject before Admin acquisition or state preparation.
-    await assert.rejects(prepareLesson('01',{platform:'darwin',macosVersion:'11.7.11'}),/Broker stack.*macOS 12/);
+    await assert.rejects(prepareLesson('04',{platform:'darwin',arch:'x64',macosVersion:'11.7.11'}),/Zitadel profile.*macOS 12/);
     await assert.doesNotReject(assertPlatformPrerequisites(config,{platform:'darwin',macosVersion:'12.0'}));
     await assert.rejects(assertPlatformPrerequisites(config,{platform:'darwin',macosVersion:'unknown'}),/Cannot determine/);
     await mkdir(path.join(config.servicesRoot,'@node'),{recursive:true});

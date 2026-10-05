@@ -31,7 +31,8 @@ for (const step of ['generate-pfx', 'generate-key-cert']) {
 postgres.env.POSTGRES_DATABASES = [...new Set([...(postgres.env.POSTGRES_DATABASES ?? 'postgres').split(',').map(value => value.trim()).filter(Boolean), databaseName])].join(',');
 identity.enabled = true;
 identity.depend_on = ['postgres', '@todo-certs'];
-identity.ports = { http: 18084 };
+if (!Number.isInteger(identity.ports?.http) || identity.ports.http < 1024 || identity.ports.http > 65535) throw Error('Identity needs a declared unprivileged HTTP port; no files changed.');
+// Keep the selected inventory port. Core resolves any collision through HTTP_PORT.
 identity.commandline = Object.fromEntries(['win32', 'darwin', 'linux', 'default'].map(platform => [platform, ' start-from-init --masterkeyFromEnv --tlsMode enabled']));
 Object.assign(identity.env, {
   ZITADEL_PORT: '${HTTP_PORT}', ZITADEL_EXTERNALPORT: '${HTTP_PORT}', ZITADEL_EXTERNALDOMAIN: 'localhost',

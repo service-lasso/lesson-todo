@@ -16,17 +16,16 @@ mutation list and declared create-only Broker grants. Baseline `@localcert` stay
 Refresh Admin and install Certificates, PostgreSQL and Identity. Keep Broker ready.
 Provision the stable Identity master key and initial admin password through real Broker IPC:
 
-```powershell
-pwsh -File lessons/04-sso/scripts/provision-identity.ps1 -ServicesRoot .workspace/04-sso/services -WorkspaceRoot .workspace/04-sso/runtime -ApiOrigin '<printed Core origin>'
+```sh
+node lessons/04-sso/scripts/provision-identity-prompt.mjs .workspace/04-sso/services .workspace/04-sso/runtime '<printed Core origin>'
 ```
 
-The prompt reads a private password securely and sends JSON over stdin; values are never
+The Node prompt works in an interactive Windows, macOS or Linux terminal. Input is hidden; Enter submits and Ctrl+C cancels. The existing PowerShell wrapper remains available for Windows operators. The prompt sends private JSON over child stdin; values are never
 printed or passed on the command line. Existing secrets remain unchanged. The helper uses
 private modules from the exact installed published Core package, with a version guard.
 Configure Certificates in Admin and run **generate-pfx**, then **generate-key-cert**.
 Preserve its CA, key and certificate under `.workspace/04-sso/services/@todo-certs/data/`.
-Inspect the CA fingerprint and approve trust for this isolated CA in your own browser/OS;
-the lesson does not mutate shared trust stores.
+Use the isolated Chrome procedure below for this local certificate; retain the private CA key. The lesson does not mutate shared trust stores.
 
 Type `shutdown` to stop the management host. In the same PowerShell terminal, give Node
 the public CA before restarting the host:
@@ -34,6 +33,12 @@ the public CA before restarting the host:
 ```powershell
 $env:NODE_EXTRA_CA_CERTS = (Resolve-Path .workspace/04-sso/services/@todo-certs/data/rootCA.pem).Path
 npm run lesson:04 -- --management
+```
+
+On macOS/Linux, from the repository root, use a process-local environment value (repeat it for every management or paired host launch):
+
+```sh
+NODE_EXTRA_CA_CERTS="$(pwd)/.workspace/04-sso/services/@todo-certs/data/rootCA.pem" npm run lesson:04 -- --management
 ```
 
 Keep that environment setting for subsequent paired launches. Core health checks and the
@@ -64,3 +69,26 @@ Mocks cannot establish this provider boundary.
 For an explicit reversible disable, stop both services and invoke the same wrapper with
 `<helper> disable`. It uses the acquired paired helper, retains data and marks App/API disabled
 again. This checkpoint never silently falls back to anonymous operation.
+
+## Isolated Chrome on macOS
+
+Close any previous Chrome window using this lesson profile. In Terminal, derive the
+SPKI SHA-256 from the generated leaf certificate, then open a dedicated profile.
+This pins only this certificate key in this Chrome process; it does not install a
+CA in macOS Keychain or change your everyday Chrome profile. Regenerate the pin if
+you regenerate the leaf key. Do not use an ignore-all-certificates option.
+
+```sh
+TODO_CERT="$PWD/.workspace/04-sso/services/@todo-certs/data/mkcert.pem"
+TODO_SPKI=$(openssl x509 -in "$TODO_CERT" -pubkey -noout | openssl pkey -pubin -outform DER | openssl dgst -sha256 -binary | openssl base64 -A)
+test -n "$TODO_SPKI" || exit 1
+"/Applications/Google Chrome.app/Contents/MacOS/Google Chrome" --user-data-dir="$PWD/.workspace/04-sso/browser-profile" --ignore-certificate-errors-spki-list="$TODO_SPKI" '<actual Identity console URL>'
+```
+
+Use this same isolated browser for the Todo login/callback/logout flow. Read the
+actual Identity origin in Admin rather than copying a port from another run. The
+Core API origin, Identity HTTPS origin and Todo callback origin are different
+endpoints. Supply the resolved Identity issuer to the paired helper. Keep the
+Basic API credential in the protected private file required by that helper,
+outside this checkout; never put its value in a command argument or manifest.
+The profile and all runtime/certificate/private credential state stay untracked.

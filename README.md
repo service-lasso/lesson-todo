@@ -27,6 +27,8 @@ the exact producer and checksum; native Broker and public Core acquisition,
 secret lookup and restart checks passed. ARM uses the default Broker profile
 requiring macOS 12. Stage04 still requires macOS 12 for its older Zitadel profile.
 Setup and run validate the selected profiles before acquisition or state writes.
+Fresh Intel setup merges only artifact fields into the curated lesson manifest,
+preserving its secure Unix transport and process health policy.
 Retained legacy Broker requires macOS 12 and managed Node 24 requires 13.5;
 setup preserves their manifests and acquired bytes. Use a separate fresh
 checkpoint for new pins. Complete native lesson SSO remains a separate gate.

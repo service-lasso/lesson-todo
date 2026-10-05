@@ -1,6 +1,6 @@
 import path from "node:path";
 import { constants } from "node:fs";
-import { copyFile, lstat, mkdir, readdir, readFile } from "node:fs/promises";
+import { copyFile, lstat, mkdir, readdir, readFile, writeFile } from "node:fs/promises";
 import { createHash } from "node:crypto";
 import { fileURLToPath } from "node:url";
 
@@ -83,8 +83,8 @@ export async function preflightStarterServicesRoot(config) {
   // Preflight the complete seed write boundary before creating anything. Even
   // an explicit seed path below .state must not traverse a retained link.
   const entries = await seedEntries(config.sourceServicesRoot, config.servicesRoot, boundary);
-  // An explicitly selected platform profile may replace a seed source only;
-  // the destination remains one of the fully preflighted seed file paths.
+  // Qualified profiles select artifact bytes only. The curated consumer seed
+  // retains its secure transport, endpoint and health policy.
   for (const [relative, source] of Object.entries(config.seedFileOverrides ?? {})) {
     const approved = qualifiedProfiles.get(relative);
     if (!approved || path.resolve(source) !== path.resolve(profileRoot, approved.relative))
@@ -99,18 +99,26 @@ export async function preflightStarterServicesRoot(config) {
     if (!(await lstat(source)).isFile()) throw Error('Platform profile requires a plain file.');
     if (createHash('sha256').update(await readFile(source)).digest('hex') !== approved.sha256)
       throw Error('Platform profile checksum mismatch; no files changed.');
-    entry.source = source;
+    const producer = JSON.parse(await readFile(source, 'utf8'));
+    const consumer = JSON.parse(await readFile(entry.source, 'utf8'));
+    if (consumer.id !== producer.id || consumer.artifact?.source?.repo !== producer.artifact?.source?.repo ||
+      consumer.artifact.source.tag !== producer.artifact.source.tag)
+      throw Error('Platform profile must match the exact curated consumer identity and release.');
+    entry.contents = JSON.stringify({ ...consumer, artifact: producer.artifact }, null, 2) + '\n';
   }
   return { boundary, entries };
 }
 
 export async function prepareStarterServicesRoot(config) {
   const { boundary, entries } = await preflightStarterServicesRoot(config);
-  for (const { source, destination, directory } of entries) {
+  for (const { source, destination, directory, contents } of entries) {
     await assertWritePath(destination, boundary);
     if (directory) await mkdir(destination, { recursive: true });
     else {
-      try { await copyFile(source, destination, constants.COPYFILE_EXCL); }
+      try {
+        if (contents !== undefined) await writeFile(destination, contents, { flag: 'wx' });
+        else await copyFile(source, destination, constants.COPYFILE_EXCL);
+      }
       catch (error) {
         if (error.code !== 'EEXIST') throw error;
         await assertWritePath(destination, boundary);

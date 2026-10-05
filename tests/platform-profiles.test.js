@@ -13,16 +13,24 @@ async function fixture(run) {
 }
 const intel11 = { platform: 'darwin', arch: 'x64', macosVersion: '11.7.11' };
 
-test('LESSON-2/6: fresh Intel 11 seeds exact qualified Broker profile without replacing retained bytes', () => fixture(async config => {
+test('LESSON-2/6: fresh Intel 11 selects qualified artifact while preserving curated transport and retained bytes', () => fixture(async config => {
   await assertPlatformPrerequisites(config, intel11);
   const profile = config.seedFileOverrides[path.join('@secretsbroker', 'service.json')];
   await prepareStarterServicesRoot(config);
   const target = path.join(config.servicesRoot, '@secretsbroker', 'service.json');
-  assert.deepEqual(await readFile(target), await readFile(profile));
+  const seed = JSON.parse(await readFile(path.join(config.sourceServicesRoot, '@secretsbroker', 'service.json')));
+  const producer = JSON.parse(await readFile(profile));
+  const expected = { ...seed, artifact: producer.artifact };
+  assert.deepEqual(JSON.parse(await readFile(target)), expected);
+  assert.deepEqual(expected.env, seed.env);
+  assert.deepEqual(expected.healthcheck, seed.healthcheck);
+  assert.equal(expected.endpoints, seed.endpoints);
+  assert.equal(expected.execconfig, seed.execconfig);
+  const before = await readFile(target);
   await writeFile(path.join(config.servicesRoot, '@secretsbroker', 'private'), 'retained fixture');
   await assertPlatformPrerequisites(config, intel11);
   await prepareStarterServicesRoot(config);
-  assert.deepEqual(await readFile(target), await readFile(profile));
+  assert.deepEqual(await readFile(target), before);
   assert.equal(await readFile(path.join(config.servicesRoot, '@secretsbroker', 'private'), 'utf8'), 'retained fixture');
 }));
 
@@ -97,4 +105,20 @@ test('LESSON-2/6: retained Intel-only profile rejects ARM without replacing it',
   const before = await readFile(filename);
   await assert.rejects(assertPlatformPrerequisites({ ...config, seedFileOverrides: undefined }, { ...intel11, arch: 'arm64', macosVersion: '12.0' }), /requires x64/);
   assert.deepEqual(await readFile(filename), before);
+}));
+
+test('LESSON-2/6: artifact selection rejects mismatched consumer identity, repository or tag before writes', () => fixture(async (config, root) => {
+  await assertPlatformPrerequisites(config, intel11);
+  const seed = JSON.parse(await readFile(path.join(config.sourceServicesRoot, '@secretsbroker', 'service.json')));
+  const source = path.join(root, 'seed');
+  await mkdir(path.join(source, '@secretsbroker'), { recursive: true });
+  await mkdir(path.join(source, 'todo'));
+  await writeFile(path.join(source, 'todo', 'service.json'), '{}');
+  for (const change of [value => { value.id = 'other'; }, value => { value.artifact.source.repo = 'other/repo'; }, value => { value.artifact.source.tag = 'unqualified'; }]) {
+    const consumer = structuredClone(seed);
+    change(consumer);
+    await writeFile(path.join(source, '@secretsbroker', 'service.json'), JSON.stringify(consumer));
+    await assert.rejects(prepareStarterServicesRoot({ ...config, sourceServicesRoot: source }), /exact curated consumer identity/);
+    await assert.rejects(readdir(config.servicesRoot), { code: 'ENOENT' });
+  }
 }));

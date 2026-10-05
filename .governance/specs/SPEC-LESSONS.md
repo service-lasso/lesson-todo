@@ -57,8 +57,10 @@ new producer pins require exact publication/checksum qualification before use.
 Issue #4 / LESSON-2/4/6 platform profile selection: Fresh Intel macOS 11 may
 select only the checksum-qualified Broker compatibility manifest from
 `2026.10.5-9c0b0e6`. ARM uses the default Broker profile requiring macOS 12.
-Profile selection occurs before any acquisition or state writes and seeds only
-missing manifest files with exclusive creation. Validate the complete seed and
+Profile selection occurs before any acquisition or state writes and merges only
+qualified artifact fields into the curated consumer seed; retain its secure
+Unix transport, endpoint and health policy. Seed only missing manifest files
+with exclusive creation. Validate the complete seed and
 override source/destination boundary before writes; reject unsupported CPUs,
 unknown OS versions and missing profiles. Retained manifests, credentials and
 acquired bytes are never replaced. Legacy Broker requires macOS 12; retained

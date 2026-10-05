@@ -8,9 +8,15 @@
   clone with pinned Core/Admin and no sibling builds, bind loopback and use
   isolated ignored per-lesson workspace/registry paths. Setup never overwrites
   existing manifests, credentials or data; shutdown affects only owned services.
+  Issue #5: setup writes only seed paths without replacing files. Reject seed
+  links, destination links/junctions and linked ancestors before any copy.
+  Service-level `.state` must be a plain directory; its Core-owned acquired
+  contents are retained without traversal, except paths explicitly in the seed.
 - LESSON-3: Stage1 persists JSON; Stage2 owns PostgreSQL and migrates explicitly;
   Stage3 delegates SQL to the managed Go API. Real startup, create/read,
   stop/restart, outage recovery and retained IDs support runnable claims.
+  Issue #5: acquired artifact links must survive setup reruns and public host
+  restart without flattening, rewriting or deleting producer-owned state.
 - LESSON-4: Stage4 adds identity, dedicated certificates and Broker provisioning,
   uses acquired paired configuration helper and private credential paths, and
   rejects partial/anonymous SSO configuration. Real provider proof remains
@@ -25,3 +31,6 @@
   lesson contract checks, independent review, exact fresh managed acceptance and
   native build evidence. Publish source via reviewed develop PR, then five Core
   article links through its reviewed PR and explicit Pages/live validation.
+  Issue #5: preserve the inherited junction/retention gates; add acquired-link
+  and seed/destination escape coverage, plus exact-candidate Mac setup/restart
+  proof. Platform prerequisites and full managed stack acceptance stay distinct.

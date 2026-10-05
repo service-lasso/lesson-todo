@@ -51,7 +51,7 @@ test('seed link rejects preparation before any destination writes', () => fixtur
   assert.deepEqual(await readdir(config.outside), []);
 }));
 
-test('a host alias above the shared preparation anchor is accepted', () => fixture(async config => {
+test('a POSIX host alias above the shared preparation anchor is accepted', { skip: process.platform === 'win32' }, () => fixture(async config => {
   const alias = path.join(config.root, 'host-alias');
   await mkdir(path.join(config.outside, 'owned-anchor', 'source', 'todo'), { recursive: true });
   await writeFile(path.join(config.outside, 'owned-anchor', 'source', 'todo', 'service.json'), 'seed');

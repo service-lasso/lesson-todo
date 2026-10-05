@@ -1,32 +1,45 @@
 // Cross-platform terminal entry. Secret bytes travel only through child stdin.
 import { spawn } from 'node:child_process';
 import { fileURLToPath } from 'node:url';
+import { StringDecoder } from 'node:string_decoder';
 
 export function readPrivatePassword(input = process.stdin, output = process.stderr) {
   if (!input.isTTY || typeof input.setRawMode !== 'function') throw Error('Use an interactive terminal for the private password prompt.');
   return new Promise((resolve, reject) => {
     let password = '';
+    const decoder = new StringDecoder('utf8');
+    let finished = false;
     const wasRaw = input.isRaw;
     const finish = (error) => {
+      if (finished) return;
+      finished = true;
       input.off('data', onData);
-      input.setRawMode(Boolean(wasRaw));
-      input.pause();
-      output.write('\n');
+      input.off('error', onError);
+      input.off('end', onEnd);
+      try { input.setRawMode(Boolean(wasRaw)); } catch { error = Error('Private terminal cleanup failed.'); }
+      try { input.pause(); } catch { error = Error('Private terminal cleanup failed.'); }
+      try { output.write('\n'); } catch { error = Error('Private terminal output failed.'); }
       if (error) { password = ''; reject(error); } else resolve(password);
     };
+    const onError = () => finish(Error('Private terminal input failed.'));
+    const onEnd = () => finish(Error('Private prompt cancelled.'));
     const onData = chunk => {
-      for (const character of chunk.toString('utf8')) {
+      for (const character of decoder.write(Buffer.isBuffer(chunk) ? chunk : Buffer.from(chunk))) {
         if (character === '\u0003' || character === '\u0004') return finish(Error('Private prompt cancelled.'));
         if (character === '\r' || character === '\n') return finish();
-        if (character === '\u007f' || character === '\b') password = password.slice(0, -1);
+        if (character === '\u007f' || character === '\b') password = [...password].slice(0, -1).join('');
         else if (character >= ' ' && character !== '\u001b') password += character;
         if (Buffer.byteLength(password) > 512) return finish(Error('Private input too large.'));
       }
     };
-    output.write('Private initial identity admin password (save in your password manager): ');
-    input.setRawMode(true);
-    input.on('data', onData);
-    input.resume();
+    try {
+      output.write('Private initial identity admin password (save in your password manager): ');
+      input.setRawMode(true);
+      input.on('data', onData);
+      input.on('error', onError);
+      input.on('end', onEnd);
+      input.resume();
+    } catch { finish(Error('Private terminal setup failed.')); }
   });
 }
 

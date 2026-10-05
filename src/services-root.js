@@ -97,9 +97,10 @@ export async function preflightStarterServicesRoot(config) {
     await assertWritePath(source, boundary);
     await assertServiceTree(source);
     if (!(await lstat(source)).isFile()) throw Error('Platform profile requires a plain file.');
-    if (createHash('sha256').update(await readFile(source)).digest('hex') !== approved.sha256)
+    const profileBytes = await readFile(source);
+    if (createHash('sha256').update(profileBytes).digest('hex') !== approved.sha256)
       throw Error('Platform profile checksum mismatch; no files changed.');
-    const producer = JSON.parse(await readFile(source, 'utf8'));
+    const producer = JSON.parse(profileBytes);
     const consumer = JSON.parse(await readFile(entry.source, 'utf8'));
     if (consumer.id !== producer.id || consumer.artifact?.source?.repo !== producer.artifact?.source?.repo ||
       consumer.artifact.source.tag !== producer.artifact.source.tag)

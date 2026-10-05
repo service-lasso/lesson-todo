@@ -51,6 +51,12 @@ async function assertWritePath(target, boundary) {
 async function seedEntries(source, destination, boundary, entries = []) {
   await assertWritePath(destination, boundary);
   const entry = await lstat(source);
+  try {
+    const existing = await lstat(destination);
+    if (entry.isDirectory() ? !existing.isDirectory() : !existing.isFile()) {
+      throw Error('Service preparation requires matching seed and destination file/directory types.');
+    }
+  } catch (error) { if (error.code !== 'ENOENT') throw error; }
   entries.push({ source, destination, directory: entry.isDirectory() });
   if (entry.isDirectory()) {
     for (const name of await readdir(source)) await seedEntries(path.join(source, name), path.join(destination, name), boundary, entries);
@@ -72,7 +78,11 @@ export async function prepareStarterServicesRoot(config) {
     if (directory) await mkdir(destination, { recursive: true });
     else {
       try { await copyFile(source, destination, constants.COPYFILE_EXCL); }
-      catch (error) { if (error.code !== 'EEXIST') throw error; }
+      catch (error) {
+        if (error.code !== 'EEXIST') throw error;
+        await assertWritePath(destination, boundary);
+        if (!(await lstat(destination)).isFile()) throw Error('Service preparation requires a retained plain file.');
+      }
     }
   }
 

@@ -51,6 +51,26 @@ test('seed link rejects preparation before any destination writes', () => fixtur
   assert.deepEqual(await readdir(config.outside), []);
 }));
 
+for (const collision of ['seed file over directory', 'seed directory over file']) {
+  test(`rejects ${collision} before copying any missing seed file`, () => fixture(async config => {
+    await mkdir(path.join(config.servicesRoot, 'todo'), { recursive: true });
+    await writeFile(path.join(config.sourceServicesRoot, 'todo', 'a-missing'), 'must not copy');
+    if (collision === 'seed file over directory') {
+      await mkdir(path.join(config.servicesRoot, 'todo', 'service.json'));
+      await writeFile(path.join(config.servicesRoot, 'todo', 'service.json', 'retained'), 'unchanged');
+    } else {
+      await mkdir(path.join(config.sourceServicesRoot, 'todo', 'z-seed-directory'));
+      await writeFile(path.join(config.servicesRoot, 'todo', 'z-seed-directory'), 'unchanged');
+    }
+    await assert.rejects(prepareStarterServicesRoot(config), /matching seed and destination/);
+    await assert.rejects(lstat(path.join(config.servicesRoot, 'todo', 'a-missing')), { code: 'ENOENT' });
+    const retained = collision === 'seed file over directory'
+      ? path.join(config.servicesRoot, 'todo', 'service.json', 'retained')
+      : path.join(config.servicesRoot, 'todo', 'z-seed-directory');
+    assert.equal(await readFile(retained, 'utf8'), 'unchanged');
+  }));
+}
+
 test('a POSIX host alias above the shared preparation anchor is accepted', { skip: process.platform === 'win32' }, () => fixture(async config => {
   const alias = path.join(config.root, 'host-alias');
   await mkdir(path.join(config.outside, 'owned-anchor', 'source', 'todo'), { recursive: true });

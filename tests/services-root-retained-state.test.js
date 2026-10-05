@@ -51,6 +51,38 @@ test('seed link rejects preparation before any destination writes', () => fixtur
   assert.deepEqual(await readdir(config.outside), []);
 }));
 
+test('a host alias above the shared preparation anchor is accepted', () => fixture(async config => {
+  const alias = path.join(config.root, 'host-alias');
+  await mkdir(path.join(config.outside, 'owned-anchor', 'source', 'todo'), { recursive: true });
+  await writeFile(path.join(config.outside, 'owned-anchor', 'source', 'todo', 'service.json'), 'seed');
+  await symlink(config.outside, alias, linkType);
+  const anchor = path.join(alias, 'owned-anchor');
+  await prepareStarterServicesRoot({ sourceServicesRoot: path.join(anchor, 'source'), servicesRoot: path.join(anchor, 'destination') });
+  assert.equal(await readFile(path.join(anchor, 'destination', 'todo', 'service.json'), 'utf8'), 'seed');
+}));
+
+test('a linked seed ancestor inside the preparation anchor is rejected', () => fixture(async config => {
+  await mkdir(path.join(config.outside, 'seed'));
+  await writeFile(path.join(config.outside, 'seed', 'service.json'), 'retained');
+  const linkedParent = path.join(config.root, 'linked-parent');
+  await symlink(config.outside, linkedParent, linkType);
+  await assert.rejects(prepareStarterServicesRoot({ ...config, sourceServicesRoot: path.join(linkedParent, 'seed') }), /links/);
+  await assert.rejects(lstat(config.servicesRoot), { code: 'ENOENT' });
+  assert.equal(await readFile(path.join(config.outside, 'seed', 'service.json'), 'utf8'), 'retained');
+}));
+
+test('retains a dangling producer file symlink below acquired state on POSIX', { skip: process.platform === 'win32' }, () => fixture(async config => {
+  await prepareStarterServicesRoot(config);
+  const bin = path.join(config.servicesRoot, 'todo', '.state', 'extracted', 'current', 'bin');
+  await mkdir(bin, { recursive: true });
+  const link = path.join(bin, 'corepack');
+  const target = '/Users/runner/work/release/lib/node_modules/corepack/dist/corepack.js';
+  await symlink(target, link);
+  await prepareStarterServicesRoot(config);
+  assert.ok((await lstat(link)).isSymbolicLink());
+  assert.equal(await readlink(link), target);
+}));
+
 for (const scenario of ['service directory', 'state custody directory', 'destination ancestor', 'seed path inside state']) {
   test(`rejects linked ${scenario} before writes and preserves escape target`, () => fixture(async config => {
     const todo = path.join(config.servicesRoot, 'todo');

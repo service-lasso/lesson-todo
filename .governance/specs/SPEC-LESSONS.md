@@ -43,3 +43,11 @@
   tag/commit identity, checksums and exact consumer startup/CRUD/restart proof
   remain required before a working managed-provider claim. Preserve Big Sur
   Node 24 and Broker failures as separate evidence.
+
+Issue #4 / LESSON-4/6: Stage04 setup must be executable with Node on Windows and
+POSIX terminals without requiring PowerShell. Private bootstrap input uses a
+hidden interactive prompt and a child stdin pipe; abort/invalid input must not
+launch provisioning. CA trust is process-local. Browser acceptance uses an owned
+isolated Chrome profile pinned to the generated leaf SPKI, without OS trust-store
+mutation. Identity configuration retains the selected published manifest port;
+new producer pins require exact publication/checksum qualification before use.

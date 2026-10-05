@@ -19,3 +19,7 @@ Issue #3 binds LESSON-2/3/6: consume the published Node 22.23.3 profile from
 lasso-node `2026.10.5-4b473fb`; declare and check the complete Broker stack
 macOS minimum before setup writes, preserve retained Node 24 state, and keep
 producer/runtime identity proof distinct from full managed consumer acceptance.
+
+Issue #4 extends Stage04 operator tooling to Windows and POSIX Node entry points,
+private stdin provisioning, resolved identity origins and isolated browser trust.
+Native full SSO remains an independent exact-candidate acceptance gate.

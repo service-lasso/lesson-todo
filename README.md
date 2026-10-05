@@ -52,6 +52,10 @@ inherited host/release fixtures and adds lesson retention and configuration cont
 Windows CI invokes the actual lesson desktop build command. Source tests, real managed
 operation, compilation, WebView sign-in, installer UI and publication remain separate evidence.
 
+Observed Core startup failures are tracked separately: [Windows ownership inspection](https://github.com/service-lasso/service-lasso/issues/1698)
+and [Broker-dependent endpoint changes](https://github.com/service-lasso/service-lasso/issues/1699).
+Their failed attempts remain preserved alongside the lesson verification results.
+
 Governed by issue [#1](https://github.com/service-lasso/lesson-todo/issues/1),
 [SPEC-LESSONS](.governance/specs/SPEC-LESSONS.md), and Core
 [#1695](https://github.com/service-lasso/service-lasso/issues/1695). Development only;

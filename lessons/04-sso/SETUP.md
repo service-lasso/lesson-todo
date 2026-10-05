@@ -13,7 +13,7 @@ node lessons/04-sso/scripts/configure-identity.mjs .workspace/04-sso/services le
 
 This uses a separate `@todo-certs`, `zitadel_todo` database, HTTPS, empty trust-store
 mutation list and declared create-only Broker grants. Baseline `@localcert` stays disabled.
-Refresh Admin; install/configure Certificates, PostgreSQL and Identity. Start Broker first.
+Refresh Admin and install Certificates, PostgreSQL and Identity. Keep Broker ready.
 Provision the stable Identity master key and initial admin password through real Broker IPC:
 
 ```powershell
@@ -23,10 +23,24 @@ pwsh -File lessons/04-sso/scripts/provision-identity.ps1 -ServicesRoot .workspac
 The prompt reads a private password securely and sends JSON over stdin; values are never
 printed or passed on the command line. Existing secrets remain unchanged. The helper uses
 private modules from the exact installed published Core package, with a version guard.
-Install/configure/start Certificates, PostgreSQL and Identity through Admin. Operator CA
-trust is an explicit prerequisite: approve trust for this isolated local CA in the browser/OS
-yourself; the lesson does not mutate shared trust stores. Identity must expose a trusted HTTPS
-issuer whose discovery metadata matches its actual origin, normally `https://localhost:18084`.
+Configure Certificates in Admin and run **generate-pfx**, then **generate-key-cert**.
+Preserve its CA, key and certificate under `.workspace/04-sso/services/@todo-certs/data/`.
+Inspect the CA fingerprint and approve trust for this isolated CA in your own browser/OS;
+the lesson does not mutate shared trust stores.
+
+Type `shutdown` to stop the management host. In the same PowerShell terminal, give Node
+the public CA before restarting the host:
+
+```powershell
+$env:NODE_EXTRA_CA_CERTS = (Resolve-Path .workspace/04-sso/services/@todo-certs/data/rootCA.pem).Path
+npm run lesson:04 -- --management
+```
+
+Keep that environment setting for subsequent paired launches. Core health checks and the
+managed App need it to verify Identity's HTTPS certificate. Complete the private prompt
+against the new printed Core origin if secrets have not yet been provisioned.
+Configure PostgreSQL and Identity, then start PostgreSQL followed by Identity through Admin.
+Confirm healthy discovery metadata at its actual origin, normally `https://localhost:18084`.
 
 In Identity register a **Web PKCE** client with the actual Todo callback/logout URLs and
 a **Basic API** client for token introspection, both in the same project. Keep the API secret

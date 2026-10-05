@@ -1,7 +1,7 @@
 {
   "id": "zitadel",
   "name": "ZITADEL",
-  "description": "Release-backed ZITADEL identity service. Requires PostgreSQL and a stable master key before enabling.",
+  "description": "Release-backed ZITADEL identity service. Requires PostgreSQL and a stable master key before enabling. Explicit custom maintained Go 1.26.8 Intel macOS 11 compatibility profile.",
   "version": "v4.14.0",
   "enabled": false,
   "ports": {
@@ -51,11 +51,7 @@
         "command": ".\\zitadel.exe",
         "args": [
           "--version"
-        ],
-        "checksum": {
-          "algorithm": "sha256",
-          "assetName": "SHA256SUMS.txt"
-        }
+        ]
       },
       "linux": {
         "assetName": "lasso-zitadel-v4.14.0-linux.tar.gz",
@@ -63,23 +59,15 @@
         "command": "./zitadel",
         "args": [
           "--version"
-        ],
-        "checksum": {
-          "algorithm": "sha256",
-          "assetName": "SHA256SUMS.txt"
-        }
+        ]
       },
       "darwin": {
-        "assetName": "lasso-zitadel-v4.14.0-darwin.tar.gz",
+        "assetName": "lasso-zitadel-v4.14.0-darwin-amd64-macos11.tar.gz",
         "archiveType": "tar.gz",
         "command": "./zitadel",
         "args": [
           "--version"
-        ],
-        "checksum": {
-          "algorithm": "sha256",
-          "assetName": "SHA256SUMS.txt"
-        }
+        ]
       }
     }
   },
@@ -91,12 +79,14 @@
       }
     ]
   },
-  "healthcheck": {
-    "id": "http-ready",
-    "type": "http",
-    "url": "http://127.0.0.1:${HTTP_PORT}/debug/ready",
-    "expected_status": 200,
-    "retries": 80,
-    "interval": 500
-  }
+  "healthchecks": [
+    {
+      "id": "http-ready",
+      "type": "http",
+      "url": "http://127.0.0.1:${HTTP_PORT}/debug/ready",
+      "expected_status": 200,
+      "retries": 80,
+      "interval": 500
+    }
+  ]
 }

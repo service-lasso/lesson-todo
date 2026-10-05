@@ -5,6 +5,8 @@ import { execFileSync } from 'node:child_process';
 import { createHash } from 'node:crypto';
 import { prepareAdmin } from './prepare-admin.mjs';
 import { prepareStarterServicesRoot, preflightStarterServicesRoot } from '../src/services-root.js';
+import { zitadelMacos11, isQualifiedIntelIdentity } from '../src/qualified-zitadel.js';
+export { zitadelMacos11 };
 
 export const repoRoot = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 export const lessons = ['01-app', '02-database', '03-api', '04-sso', '05-desktop'];
@@ -63,8 +65,21 @@ export async function assertPlatformPrerequisites(config, { platform = process.p
     broker.artifact.source.tag === brokerMacos11.tag && broker.artifact.platforms?.darwin?.assetName === brokerMacos11.asset;
   if (compatibleBroker && arch !== 'x64') throw Error('Intel macOS Broker profile requires x64; retained profile is preserved.');
   if (major < 12 && !compatibleBroker) throw Error('Broker stack requires macOS 12 or a qualified Intel macOS 11 profile. Lesson state is retained.');
-  const identity = await selected('zitadel');
-  if (major < 12 && identity) throw Error('Selected Zitadel profile requires macOS 12 or newer. Lesson state is retained.');
+  let identity = await selected('zitadel');
+  let retainedIdentity = false;
+  try { await lstat(path.join(config.servicesRoot, 'zitadel', 'service.json')); retainedIdentity = true; }
+  catch (error) { if (error.code !== 'ENOENT') throw error; }
+  if (!retainedIdentity && arch === 'x64' && identity?.artifact?.source?.repo === 'service-lasso/lasso-zitadel' && identity.artifact.source.tag === zitadelMacos11.tag) {
+    const profile = path.join(config.repoRoot ?? repoRoot, 'profiles', 'zitadel', 'service-darwin-amd64-macos11.json');
+    const bytes = await readFile(profile);
+    if (createHash('sha256').update(bytes).digest('hex') !== zitadelMacos11.profileSha256) throw Error('Zitadel platform profile checksum mismatch.');
+    identity = JSON.parse(bytes);
+    identity.artifact.platforms.darwin.checksum = { algorithm: 'sha256', value: zitadelMacos11.archiveSha256 };
+    config.seedFileOverrides = { ...config.seedFileOverrides, [path.join('zitadel', 'service.json')]: profile };
+  }
+  const compatibleIdentity = isQualifiedIntelIdentity(identity);
+  if (identity?.artifact?.platforms?.darwin?.assetName === zitadelMacos11.asset && arch !== 'x64') throw Error('Intel macOS Zitadel profile requires x64; retained profile is preserved.');
+  if (major < 12 && identity && (!compatibleIdentity || !compatibleBroker)) throw Error('Selected Zitadel profile requires macOS 12 or qualified Intel macOS 11 identity and Broker profiles. Lesson state is retained.');
 }
 export async function prepareLesson(selector, platformOptions) {
   const config = lessonPaths(selector);

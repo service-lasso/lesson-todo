@@ -1,5 +1,14 @@
 # Progressive Todo application checkpoints
 
+Issue #9 implements qualified Stage 04 Intel macOS 11 consumption under
+LESSON-2/4/6. Public ZITADEL `2026.10.5-d7e04eb` targets
+`d7e04ebd9489ddc8c6798e408cd8ce7992711146`; producer run 37327998201 passed
+all eight source/binary scans, five hosted native gates, actual Intel 11 SSO
+and protected publication. Parent verified all 13 public assets and seven
+staged/public byte matches before releasing implementation. Fresh default
+packages use this repaired release too. Literal lesson acceptance remains pending.
+See [the bounded plan](STAGE04-MACOS11-PLAN.md).
+
 One public repository with complete inventories and instructions under
 lessons/01-app, 02-database, 03-api, 04-sso and 05-desktop. Readers can inspect
 each stage or run it from a fresh checkout using shared host tooling. Released

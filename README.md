@@ -28,7 +28,10 @@ profile from [release 2026.10.5-301b426](https://github.com/service-lasso/lasso-
 The checked-in profile bytes and [provenance](profiles/broker/source.json) bind
 the exact producer and checksum; native Broker and public Core acquisition,
 secret lookup and restart checks passed. ARM uses the default Broker profile
-requiring macOS 12. Stage04 still requires macOS 12 for its older Zitadel profile.
+requiring macOS 12. Stage04 fresh Intel macOS 11 also selects the qualified ZITADEL profile from
+`2026.10.5-d7e04eb`; [identity provenance](profiles/zitadel/source.json) records
+its exact source, public profile hash and inline archive digest. ARM/default
+and retained legacy identity profiles require macOS 12.
 Setup and run validate the selected profiles before acquisition or state writes.
 Fresh Intel setup merges only artifact fields into the curated lesson manifest,
 preserving its secure Unix transport and process health policy.

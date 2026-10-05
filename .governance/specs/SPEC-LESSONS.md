@@ -34,3 +34,12 @@
   Issue #5: preserve the inherited junction/retention gates; add acquired-link
   and seed/destination escape coverage, plus exact-candidate Mac setup/restart
   proof. Platform prerequisites and full managed stack acceptance stay distinct.
+
+- LESSON-2/3/6, issue #3: Fresh inventories pin managed Node 22.23.3 from
+  exact producer source/tag. Require macOS >=12 for the complete Broker stack
+  before setup writes/downloads or managed launch; retained Node 24 pins require
+  >=13.5 and are never silently replaced. Node binary macOS >=11 compatibility
+  does not qualify the complete stack or EOL production support. Published
+  tag/commit identity, checksums and exact consumer startup/CRUD/restart proof
+  remain required before a working managed-provider claim. Preserve Big Sur
+  Node 24 and Broker failures as separate evidence.

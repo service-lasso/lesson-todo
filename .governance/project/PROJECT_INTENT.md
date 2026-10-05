@@ -14,3 +14,8 @@ identity provisioning; adopting existing SSO must never silently disable it.
 The primary Core checkout has inherited package deletions and other-worker
 evidence. It is not modified by this unit. Runtime proof uses owned, isolated
 workspaces and registries; secret-bearing receipts stay private.
+
+Issue #3 binds LESSON-2/3/6: consume the published Node 22.23.3 profile from
+lasso-node `2026.10.5-4b473fb`; declare and check the complete Broker stack
+macOS minimum before setup writes, preserve retained Node 24 state, and keep
+producer/runtime identity proof distinct from full managed consumer acceptance.

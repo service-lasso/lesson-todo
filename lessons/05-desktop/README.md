@@ -29,6 +29,8 @@ flowchart LR
 | Database | [postgres](services/postgres/service.json) | Retain Todo rows | Enabled |
 | API | [todo-api](services/todo-api/service.json) | Own SQL reads and writes | Enabled |
 
+Prerequisites: host Node 22 or newer; the full managed stack requires macOS 12 or newer because Broker uses Go 1.26. Managed Node is pinned to 22.23.3 (its binary minimum is macOS 11). Production use requires an OS still supported by its vendor. Existing Node 24 state requires macOS 13.5 or newer and is retained by setup. See [platform prerequisites](../../README.md#platform-prerequisites).
+
 From the repository root, with Node 22 or newer:
 
 ```sh
@@ -49,7 +51,7 @@ The disabled inherited `@serviceadmin` manifest is inventory provenance only. Th
 
 ## Source and release inventory
 
-- @node: [source and release 2026.4.27-eca215a](https://github.com/service-lasso/lasso-node/releases/tag/2026.4.27-eca215a).
+- @node: [source and release 2026.10.5-4b473fb](https://github.com/service-lasso/lasso-node/releases/tag/2026.10.5-4b473fb).
 - @python: [source and release 2026.4.27-63f915c](https://github.com/service-lasso/lasso-python/releases/tag/2026.4.27-63f915c).
 - @java: [source and release 2026.4.27-b313cb0](https://github.com/service-lasso/lasso-java/releases/tag/2026.4.27-b313cb0).
 - @localcert: [source and release 2026.4.27-591ed28](https://github.com/service-lasso/lasso-localcert/releases/tag/2026.4.27-591ed28).

@@ -1,0 +1,10 @@
+{
+  "repository": "https://github.com/service-lasso/lasso-node",
+  "commit": "4b473fbbf70e109cce9632d0f59b2e80f1b9a5b5",
+  "runtimeVersion": "22.23.3",
+  "status": "published tag/commit and checksum inventory verified; Windows archive SHA256 verified; full managed consumer acceptance pending",
+  "publisherRun": "https://github.com/service-lasso/lasso-node/actions/runs/37260029840",
+  "tag": "2026.10.5-4b473fb",
+  "windowsArchiveSha256": "1c6b103e840595738aacfe45d4f1cca8384987af68c6de017c0573e16c9d9cc2",
+  "windowsArchiveVersionProof": "Extracted checksum-verified node.exe --version => v22.23.3 (2026-10-05); runtime probe only, not managed stack acceptance"
+}

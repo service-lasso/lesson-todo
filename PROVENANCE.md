@@ -17,6 +17,9 @@ there. Lesson assemblies remove floating channels, adapt dependencies/state path
 unused fixtures/routers. Their artifact source tags and checksum assets remain producer-owned.
 Runtime implementation is acquired by Core, never copied into lesson source. SSO enable/disable
 uses the paired helper inside Todo's acquired checksum-verified release.
+Its exact `configure-sso.mjs` SHA256 is
+`0c23c024409d8da53ff37c66b8d900a6c7c51e15274de3ca57b7a56d482e1b84`;
+the wrapper checks it before invoking either enable or disable.
 
 Native bootstrap downloads only the pinned source archive, verifies its recorded SHA256,
 and runs its own locked native build with lesson 05's complete inventory. Its Rust/settings,

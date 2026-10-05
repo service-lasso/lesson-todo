@@ -24,6 +24,10 @@ assembly only. Canonical producer service implementations are not copied or chan
   PowerShell module path set only in the test child environment. Linux CI then found the
   inherited install fixture's README-only archive lacked its declared `echo-service`
   executable; fixture assembly now includes a real Unix executable without assertion edits.
+- Linux CI passed all 8 tests on `39f3e04`. Native Windows CI then reached Rust compilation
+  but linker output exceeded Windows path limits (LNK1104). The source extraction now
+  strips the enclosing archive directory into a short owned `app` directory; actual source
+  bytes and archive integrity remain unchanged. No shared host settings were changed.
 
 Independent source review, exact fresh managed CRUD/restart/outage proof, actual provider
 SSO, native build CI and develop PR checks are pending at first candidate publication.

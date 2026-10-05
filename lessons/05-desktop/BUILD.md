@@ -21,7 +21,7 @@ workflow calls this same root command and retains executables and the source/bui
 | Locked npm/Core/Tauri CLI | Exact archive `package.json`, `package-lock.json` |
 
 Every build uses a new verified extraction, preserving all previous build trees and rejecting
-cached-source reuse. Output lives in `.native/lesson-05/build-<UUID>/service-lasso-app-tauri-<commit>/src-tauri/target/release`;
+cached-source reuse. Output lives in `.native/lesson-05/build-<UUID>/app/src-tauri/target/release`;
 NSIS installers are under `bundle/nsis`. The template packages its Node host with the real
 published Core and verified Admin payload. It uses its native app-owned runtime state and
 copy-once seeds, preserving existing SSO on rerun. A fresh lesson 05 inventory is explicitly
@@ -31,3 +31,5 @@ containing `.workspace`. Native compilation proves executable production only; W
 installer interaction, sign-in, CA trust and server acceptance need separate direct evidence.
 The source/output receipt is `.native/lesson-05/build-receipt.json`. CI requires both the
 native executable and NSIS installer before uploading; a receipt alone cannot pass.
+The archive's enclosing directory is stripped into `app` to keep Windows linker paths short;
+all project-relative source bytes remain bound to the exact recorded archive digest.

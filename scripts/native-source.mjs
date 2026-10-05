@@ -11,7 +11,11 @@ export async function stageNativeSource(cache, bytes, source) {
   await mkdir(buildRoot, {recursive:false});
   const archive = path.join(buildRoot, 'verified-template.tar.gz');
   await writeFile(archive, bytes, {flag:'wx'});
-  await extract({file:archive,cwd:buildRoot,strict:true,preservePaths:false});
+  const project = path.join(buildRoot, 'app');
+  await mkdir(project);
+  // Remove only the archive's enclosing repository directory; bytes and relative inputs remain exact.
+  // The short owned directory keeps Windows linker output below MAX_PATH.
+  await extract({file:archive,cwd:project,strip:1,strict:true,preservePaths:false});
   await assertServiceTree(buildRoot);
-  return {buildRoot,project:path.join(buildRoot, `service-lasso-app-tauri-${source.commit}`)};
+  return {buildRoot,project};
 }

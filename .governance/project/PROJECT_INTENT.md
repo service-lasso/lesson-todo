@@ -1,5 +1,10 @@
 # Progressive Todo application checkpoints
 
+Issue #9 prepares qualified Stage 04 Intel macOS 11 consumption under
+LESSON-2/4/6. Product implementation waits for the actual public ZITADEL
+qualification/profile handoff; preserve current guards and retained state.
+See [the bounded plan](STAGE04-MACOS11-PLAN.md).
+
 One public repository with complete inventories and instructions under
 lessons/01-app, 02-database, 03-api, 04-sso and 05-desktop. Readers can inspect
 each stage or run it from a fresh checkout using shared host tooling. Released

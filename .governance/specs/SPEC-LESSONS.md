@@ -1,5 +1,15 @@
 # Five runnable Todo checkpoints — issue #1 / Core #1695
 
+Issue #9 / LESSON-2/4/6: Stage 04 fresh Intel macOS 11 may consume only an
+exact publicly qualified ZITADEL compatibility profile with source/tag/hash and
+native producer receipt. Reuse the static whitelist, same-buffer SHA-256/parse,
+artifact-only curated overlay and exclusive seed writes. Keep retained legacy
+ZITADEL >=12, ARM/default >=12, unknown CPU rejection, HTTPS/TLS/Broker/DB policy,
+current Todo/API pins and private paired API secret-file contract. No candidate
+pin or relaxed guard before qualification. The bounded plan and separate native
+consumer/publication gates are in
+[STAGE04-MACOS11-PLAN](../project/STAGE04-MACOS11-PLAN.md).
+
 - LESSON-1: Each numbered folder contains a complete app-owned service inventory,
   README, article URL, purpose-first Mermaid diagram, previous/next links and
   exact service source/release references. Baseline support services are

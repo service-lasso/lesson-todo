@@ -18,3 +18,7 @@
   PR #8 lands first-three lesson compatibility, portable Stage04 helpers and
   Node acquisition integrity independently. Stage04 retains legacy Zitadel's
   macOS >=12 guard; a separately qualified Zitadel pin is a follow-up unit.
+
+- #11 in_review -> SPEC-LESSONS LESSON-1/2/4/6; older Mac note and five lesson
+  links. Profile pins verified against checked-in provenance; local links and
+  diff hygiene checked. Documentation only; no runtime acceptance claim.

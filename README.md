@@ -43,6 +43,35 @@ See [Node 22 platform contract](https://github.com/nodejs/node/blob/v22.23.3/BUI
 and [Go 1.26 minimum macOS](https://go.dev/doc/go1.26#darwin).
 Windows desktop compilation remains a separately qualified Windows x64 flow.
 
+### Older Macs (including Intel macOS 11.7.11)
+
+Fresh lessons on Intel macOS 11 (Big Sur), including 11.7.11, automatically
+select the compatibility profiles below. You do not need to edit service pins
+by hand.
+
+| Component | Fresh Intel macOS 11 lesson | Older/default profile |
+| --- | --- | --- |
+| Secrets Broker | `2026.10.5-301b426` macOS 11 profile | Requires macOS 12+ |
+| ZITADEL identity (lesson 04) | `2026.10.5-d7e04eb` macOS 11 profile | Requires macOS 12+ |
+| Managed Node | 22.23.3 | Retained Node 24 requires macOS 13.5+ |
+
+The macOS 11 Broker and identity profiles are for Intel (`x64`) Macs. Apple
+Silicon (`arm64`) uses the default profiles and requires macOS 12 or newer.
+See the [Broker](profiles/broker/source.json) and
+[identity](profiles/zitadel/source.json) provenance for the exact releases.
+
+If an existing lesson folder reports that macOS is too old, rerunning setup
+keeps its previous manifests and downloaded packages. Clone the current
+`develop` branch into a separate fresh folder and run the selected lesson's
+setup there. Keep the original folder, credentials and databases; do not delete
+`.workspace` or replace identity data to bypass the version check. Follow the
+lesson's explicit migration instructions when moving existing data.
+
+Automated browser tests have a separate requirement: current
+[Playwright requires macOS 14 (Sonoma) or newer](https://playwright.dev/docs/intro#system-requirements).
+That requirement does not change the identity-service binary minimum above.
+Binary compatibility also does not extend Apple's support lifetime for an older OS.
+
 Start at the repository root with Node 22 or newer:
 
 ```sh

@@ -35,7 +35,7 @@ flowchart LR
 | Identity | [zitadel](services/zitadel/service.json) | Authenticate users | Disabled |
 | Certificates | [@todo-certs](services/@todo-certs/service.json) | Provide local Identity HTTPS | Disabled |
 
-Prerequisites: host Node 22 or newer; fresh Intel macOS 11 uses the qualified Broker compatibility profile; ARM and retained legacy Broker require macOS 12. Stage04 fresh Intel macOS 11 selects the qualified ZITADEL compatibility profile from `2026.10.5-d7e04eb`; ARM/default and retained legacy identity require macOS 12. Managed Node is pinned to 22.23.3 (its binary minimum is macOS 11). Production use requires an OS still supported by its vendor. Existing Node 24 state requires macOS 13.5 or newer and is retained by setup. See [platform prerequisites](../../README.md#platform-prerequisites).
+Prerequisites: host Node 22 or newer; fresh Intel macOS 11 uses the qualified Broker compatibility profile; ARM and retained legacy Broker require macOS 12. Stage04 fresh Intel macOS 11 selects the qualified ZITADEL compatibility profile from `2026.10.5-d7e04eb`; ARM/default and retained legacy identity require macOS 12. Managed Node is pinned to 22.23.3 (its binary minimum is macOS 11). Production use requires an OS still supported by its vendor. Existing Node 24 state requires macOS 13.5 or newer and is retained by setup. See [platform prerequisites](../../README.md#platform-prerequisites) and the [older Macs note](../../README.md#older-macs-including-intel-macos-11711) before setup.
 
 From the repository root, with Node 22 or newer:
 

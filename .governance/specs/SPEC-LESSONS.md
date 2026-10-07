@@ -90,3 +90,9 @@ platform definitions must use the exact published `SHA256SUMS.txt` asset with
 SHA-256 verification during normal Core acquisition. An independent archive
 hash check does not replace this consumer contract. Keep retained inventories
 and acquired runtimes unchanged; preserve this requirement in inventory tests.
+
+Issue #11 / LESSON-1/2/4/6: Make older Intel Mac compatibility discoverable in
+the root README and all five lesson READMEs. Document the exact macOS 11 Broker
+and ZITADEL profiles, Node 22 versus retained Node 24, ARM/default minimums,
+fresh-folder recovery without deleting retained state, and separate browser-test
+requirements. Documentation only; no platform guard or service pin changes.

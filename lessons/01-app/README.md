@@ -27,7 +27,7 @@ flowchart LR
 | Secrets | [@secretsbroker](services/@secretsbroker/service.json) | Provide scoped secret access | Enabled |
 | App | [todo](services/todo/service.json) | Serve Todo and validate requests | Enabled |
 
-Prerequisites: host Node 22 or newer; fresh Intel macOS 11 uses the qualified Broker compatibility profile; ARM and retained legacy Broker require macOS 12. Stage04 also requires macOS 12 until its Zitadel compatibility profile is qualified. Managed Node is pinned to 22.23.3 (its binary minimum is macOS 11). Production use requires an OS still supported by its vendor. Existing Node 24 state requires macOS 13.5 or newer and is retained by setup. See [platform prerequisites](../../README.md#platform-prerequisites).
+Prerequisites: host Node 22 or newer; fresh Intel macOS 11 uses the qualified Broker compatibility profile; ARM and retained legacy Broker require macOS 12. Stage04 fresh Intel macOS 11 also uses the qualified ZITADEL compatibility profile; ARM/default and retained legacy identity require macOS 12. Managed Node is pinned to 22.23.3 (its binary minimum is macOS 11). Production use requires an OS still supported by its vendor. Existing Node 24 state requires macOS 13.5 or newer and is retained by setup. See [platform prerequisites](../../README.md#platform-prerequisites) and the [older Macs note](../../README.md#older-macs-including-intel-macos-11711) before setup.
 
 From the repository root, with Node 22 or newer:
 

@@ -2,7 +2,7 @@
   "name": "@service-lasso/lesson-todo",
   "version": "0.1.0",
   "private": true,
-  "description": "Five complete progressive Todo application checkpoints",
+  "description": "Six complete progressive Todo application checkpoints",
   "license": "Apache-2.0",
   "type": "module",
   "scripts": {
@@ -16,6 +16,8 @@
     "lesson:03": "node scripts/lesson.mjs run 03",
     "lesson:04": "node scripts/lesson.mjs run 04",
     "lesson:05": "node scripts/lesson.mjs run 05",
+    "lesson:06": "node scripts/lesson.mjs run 06",
+    "lesson:07": "node scripts/lesson.mjs run 07",
     "desktop:build": "node lessons/05-desktop/build.mjs"
   },
   "dependencies": {

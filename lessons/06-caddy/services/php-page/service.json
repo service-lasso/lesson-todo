@@ -1,0 +1,61 @@
+{
+  "id": "php-page",
+  "name": "PHP Page",
+  "description": "Minimal PHP page served by php-cgi and published through the shared @caddy translator.",
+  "version": "0.1.0",
+  "enabled": true,
+  "depend_on": [
+    "php"
+  ],
+  "requires": {
+    "php": ">=8.3"
+  },
+  "executable": "${PHP_CGI}",
+  "args": [
+    "-b",
+    "127.0.0.1:${endpoint.fastcgi.port}"
+  ],
+  "endpoints": [
+    {
+      "id": "fastcgi",
+      "kind": "network",
+      "label": "FastCGI",
+      "direction": "inbound",
+      "transport": "tcp",
+      "protocol": "tcp",
+      "bind": "127.0.0.1",
+      "port": {
+        "default": 19000,
+        "strategy": "preferred"
+      },
+      "exposure": "local",
+      "required": true,
+      "primary": true
+    }
+  ],
+  "install": {
+    "files": [
+      {
+        "path": "./runtime/www/index.php",
+        "content": "<?php header('Content-Type: text/plain'); echo 'hello from php-page via caddy';\n"
+      }
+    ]
+  },
+  "ingress": [
+    {
+      "domain": "php-page.servicelasso.localhost",
+      "proxy": {
+        "type": "fastcgi",
+        "endpoint": "fastcgi",
+        "root": "${SERVICE_ROOT}/runtime/www"
+      }
+    }
+  ],
+  "healthcheck": {
+    "id": "fastcgi-ready",
+    "type": "tcp",
+    "address": "${endpoint.fastcgi.bind}:${endpoint.fastcgi.port}",
+    "retries": 120,
+    "interval": 250
+  }
+}

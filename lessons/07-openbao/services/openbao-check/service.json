@@ -1,0 +1,104 @@
+{
+  "id": "openbao-check",
+  "name": "OpenBao Secret Check",
+  "description": "Echo consumer that proves a Service Lasso Secrets Broker ref resolves through the configured OpenBao source.",
+  "version": "2026.4.20-a417abd",
+  "enabled": true,
+  "depend_on": [
+    "@secretsbroker",
+    "@openbao"
+  ],
+  "executable": "node",
+  "args": [
+    "runtime/fixture-harness.mjs"
+  ],
+  "env": {
+    "ECHO_MESSAGE": "OpenBao secret-source check",
+    "ECHO_OPENBAO_SECRET": "${openbao.DEMO_VALUE}",
+    "ECHO_PORT": "${SERVICE_PORT}",
+    "ECHO_LOG_PATH": "./runtime/echo.log",
+    "ECHO_STATE_PATH": "./runtime/state.json",
+    "ECHO_DB_PATH": "./runtime/echo.sqlite"
+  },
+  "broker": {
+    "enabled": true,
+    "namespace": "services/openbao-check",
+    "buckets": [
+      {
+        "namespace": "services/openbao-check",
+        "kind": "service"
+      },
+      {
+        "namespace": "todo/openbao",
+        "kind": "shared"
+      }
+    ],
+    "imports": [
+      {
+        "namespace": "todo/openbao",
+        "ref": "openbao.DEMO_VALUE",
+        "as": "ECHO_OPENBAO_SECRET",
+        "required": true
+      }
+    ]
+  },
+  "artifact": {
+    "kind": "archive",
+    "source": {
+      "type": "github-release",
+      "repo": "service-lasso/lasso-echoservice",
+      "tag": "2026.4.20-a417abd"
+    },
+    "platforms": {
+      "win32": {
+        "assetName": "echo-service-win32.zip",
+        "archiveType": "zip",
+        "command": ".\\echo-service.exe"
+      },
+      "linux": {
+        "assetName": "echo-service-linux.tar.gz",
+        "archiveType": "tar.gz",
+        "command": "./echo-service"
+      },
+      "darwin": {
+        "assetName": "echo-service-darwin.tar.gz",
+        "archiveType": "tar.gz",
+        "command": "./echo-service"
+      }
+    }
+  },
+  "install": {
+    "files": [
+      {
+        "path": "./runtime/install.txt",
+        "content": "installed ${SERVICE_ID}\n"
+      }
+    ]
+  },
+  "config": {
+    "files": [
+      {
+        "path": "./runtime/config.json",
+        "content": "{\n  \"serviceId\": \"${SERVICE_ID}\",\n  \"port\": \"${SERVICE_PORT}\",\n  \"logPath\": \"${ECHO_LOG_PATH}\",\n  \"statePath\": \"${ECHO_STATE_PATH}\",\n  \"dbPath\": \"${ECHO_DB_PATH}\"\n}\n"
+      }
+    ]
+  },
+  "ports": {
+    "service": 4011
+  },
+  "urls": [
+    {
+      "label": "ui",
+      "url": "http://127.0.0.1:${SERVICE_PORT}/",
+      "kind": "local"
+    },
+    {
+      "label": "service",
+      "url": "http://127.0.0.1:${SERVICE_PORT}/health",
+      "kind": "local"
+    }
+  ],
+  "healthcheck": {
+    "type": "process"
+  }
+}

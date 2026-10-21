@@ -1,0 +1,126 @@
+{
+  "id": "postgres",
+  "name": "PostgreSQL",
+  "description": "Release-backed PostgreSQL service for local Service Lasso data dependencies.",
+  "version": "2026.10.4-1af7982",
+  "enabled": true,
+  "endpoints": [
+    {
+      "id": "service",
+      "kind": "network",
+      "label": "PostgreSQL TCP",
+      "direction": "inbound",
+      "transport": "tcp",
+      "protocol": "tcp",
+      "bind": "127.0.0.1",
+      "port": {
+        "default": 8500,
+        "strategy": "preferred"
+      },
+      "exposure": "local",
+      "primary": true
+    },
+    {
+      "id": "postgres",
+      "kind": "url",
+      "label": "PostgreSQL",
+      "target": "service",
+      "url": "postgresql://${endpoint.service.bind}:${endpoint.service.port}/postgres",
+      "exposure": "local",
+      "primary": true
+    }
+  ],
+  "env": {
+    "POSTGRES_HOST": "${endpoint.service.bind}",
+    "POSTGRES_PORT": "${endpoint.service.port}",
+    "POSTGRES_URL": "${endpoint.postgres.url}",
+    "POSTGRES_USER": "pgadmin",
+    "POSTGRES_PASSWORD": "pgadmin",
+    "POSTGRES_DATABASES": "postgres",
+    "POSTGRES_MAX_CONNECTIONS": "100",
+    "POSTGRES_DATA_DIR": "${SERVICE_ROOT}/runtime/data",
+    "PGPASSWORD": "${POSTGRES_PASSWORD}"
+  },
+  "globalenv": {
+    "POSTGRES_HOST": "${POSTGRES_HOST}",
+    "POSTGRES_PORT": "${POSTGRES_PORT}",
+    "POSTGRES_URL": "${POSTGRES_URL}",
+    "POSTGRES_USER": "${POSTGRES_USER}",
+    "POSTGRES_PASSWORD": "${POSTGRES_PASSWORD}",
+    "POSTGRES_HOME": "${SERVICE_ARTIFACT_ROOT}",
+    "POSTGRE_HOST": "${POSTGRES_HOST}",
+    "POSTGRE_PORT": "${POSTGRES_PORT}",
+    "POSTGRE_URL": "${POSTGRES_URL}",
+    "POSTGRE_AUTH_USERNAME": "${POSTGRES_USER}",
+    "POSTGRE_AUTH_PASSWORD": "${POSTGRES_PASSWORD}",
+    "POSTGRE_HOME": "${SERVICE_ARTIFACT_ROOT}"
+  },
+  "artifact": {
+    "kind": "archive",
+    "source": {
+      "type": "github-release",
+      "repo": "service-lasso/lasso-postgres",
+      "tag": "2026.10.4-1af7982"
+    },
+    "platforms": {
+      "win32": {
+        "assetName": "lasso-postgres-15.17-win32.zip",
+        "archiveType": "zip",
+        "command": "./lasso-postgres.mjs",
+        "args": [],
+        "checksum": {
+          "algorithm": "sha256",
+          "assetName": "SHA256SUMS.txt"
+        }
+      },
+      "darwin": {
+        "assetName": "lasso-postgres-15.17-darwin.tar.gz",
+        "archiveType": "tar.gz",
+        "command": "./lasso-postgres.mjs",
+        "args": [],
+        "checksum": {
+          "algorithm": "sha256",
+          "assetName": "SHA256SUMS.txt"
+        }
+      },
+      "linux": {
+        "assetName": "lasso-postgres-15.17-linux.tar.gz",
+        "archiveType": "tar.gz",
+        "command": "./lasso-postgres.mjs",
+        "args": [],
+        "checksum": {
+          "algorithm": "sha256",
+          "assetName": "SHA256SUMS.txt"
+        }
+      }
+    }
+  },
+  "install": {
+    "files": [
+      {
+        "path": "./runtime/.keep",
+        "content": ""
+      }
+    ]
+  },
+  "updates": {
+    "enabled": true,
+    "mode": "notify",
+    "track": "latest",
+    "checkIntervalSeconds": 86400
+  },
+  "depend_on": [
+    "@node"
+  ],
+  "execservice": "@node",
+  "args": [
+    "${SERVICE_ARTIFACT_ROOT}/lasso-postgres.mjs"
+  ],
+  "healthcheck": {
+    "id": "tcp-ready",
+    "type": "tcp",
+    "address": "${endpoint.service.bind}:${endpoint.service.port}",
+    "retries": 80,
+    "interval": 250
+  }
+}

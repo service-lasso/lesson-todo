@@ -10,7 +10,7 @@ packages use this repaired release too. Literal lesson acceptance remains pendin
 See [the bounded plan](STAGE04-MACOS11-PLAN.md).
 
 One public repository with complete inventories and instructions under
-lessons/01-app, 02-database, 03-api, 04-sso and 05-desktop. Readers can inspect
+lessons/01-app, 02-database, 03-api, 04-sso, 05-desktop and 07-openbao. Readers can inspect
 each stage or run it from a fresh checkout using shared host tooling. Released
 services remain real managed Service Lasso services. Node host template baseline
 9835a67d27938526750f6816ec8f4cdfca610aca; generated develop 9085f6ef7c736961dd85f05ded3188d4a4c2a748.

@@ -9,6 +9,13 @@ This checkpoint adds the shared `@caddy` translator and a managed PHP runtime:
 
 Traefik remains the public edge (TLS + `Host`). The request path is:
 
+```mermaid
+flowchart LR
+  user[User] --> traefik["Traefik<br/>(TLS + Host)"]
+  traefik --> caddy["@caddy<br/>(FastCGI translator)"]
+  caddy --> php["php-page<br/>(php-cgi)"]
+```
+
 ```text
 Traefik -> @caddy -> php-cgi (php-page)
 ```

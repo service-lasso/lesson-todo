@@ -1,0 +1,135 @@
+{
+  "id": "@openbao",
+  "name": "OpenBao",
+  "description": "Development-mode OpenBao service used by the advanced OpenBao secret-source lesson.",
+  "version": "2.7.1",
+  "enabled": true,
+  "logoutput": true,
+  "icon": [
+    {
+      "provider": "lucide",
+      "name": "key-round"
+    }
+  ],
+  "servicetype": 50,
+  "servicelocation": 10,
+  "meta": {
+    "developers": [
+      {
+        "name": "Service Lasso contributors"
+      }
+    ],
+    "license": "MPL-2.0",
+    "repository": {
+      "type": "git",
+      "url": "https://github.com/service-lasso/lasso-openbao.git"
+    },
+    "websiteUrl": "https://openbao.org",
+    "documentationUrl": "https://openbao.org/docs/",
+    "issuesUrl": "https://github.com/service-lasso/lasso-openbao/issues",
+    "tags": [
+      "service-lasso",
+      "secrets",
+      "openbao",
+      "vault"
+    ]
+  },
+  "artifact": {
+    "kind": "archive",
+    "source": {
+      "type": "github-release",
+      "repo": "service-lasso/lasso-openbao",
+      "tag": "2026.10.14-398f800"
+    },
+    "platforms": {
+      "win32": {
+        "assetName": "openbao-win32.zip",
+        "archiveType": "zip",
+        "command": ".\\bao.exe",
+        "args": [
+          "server",
+          "-dev",
+          "-dev-root-token-id=lesson-root",
+          "-dev-listen-address=127.0.0.1:${SERVICE_PORT}",
+          "-dev-no-store-token"
+        ]
+      },
+      "darwin": {
+        "assetName": "openbao-darwin.tar.gz",
+        "archiveType": "tar.gz",
+        "command": "./bao",
+        "args": [
+          "server",
+          "-dev",
+          "-dev-root-token-id=lesson-root",
+          "-dev-listen-address=127.0.0.1:${SERVICE_PORT}",
+          "-dev-no-store-token"
+        ]
+      },
+      "linux": {
+        "assetName": "openbao-linux.tar.gz",
+        "archiveType": "tar.gz",
+        "command": "./bao",
+        "args": [
+          "server",
+          "-dev",
+          "-dev-root-token-id=lesson-root",
+          "-dev-listen-address=127.0.0.1:${SERVICE_PORT}",
+          "-dev-no-store-token"
+        ]
+      }
+    }
+  },
+  "install": {
+    "files": [
+      {
+        "path": "./runtime/data/.keep",
+        "content": ""
+      },
+      {
+        "path": "./logs/.keep",
+        "content": ""
+      }
+    ]
+  },
+  "ports": {
+    "service": 18200,
+    "cluster": 18201
+  },
+  "urls": [
+    {
+      "label": "ui",
+      "url": "http://127.0.0.1:${SERVICE_PORT}/ui",
+      "kind": "local"
+    },
+    {
+      "label": "health",
+      "url": "http://127.0.0.1:${SERVICE_PORT}/v1/sys/health",
+      "kind": "local"
+    }
+  ],
+  "healthcheck": {
+    "type": "tcp"
+  },
+  "execconfig": {
+    "serviceorder": 100,
+    "serviceport": 18200,
+    "execcwd": "runtime",
+    "executable": "bao",
+    "args": [
+      "server",
+      "-dev",
+      "-dev-root-token-id=lesson-root",
+      "-dev-listen-address=127.0.0.1:${SERVICE_PORT}",
+      "-dev-no-store-token"
+    ],
+    "env": {
+      "BAO_ADDR": "http://127.0.0.1:18200",
+      "BAO_API_PORT": "18200",
+      "BAO_CLUSTER_PORT": "18201",
+      "BAO_LOG_LEVEL": "info",
+      "OPENBAO_HOME": "${SERVICE_ROOT}"
+    },
+    "depend_on": []
+  }
+}

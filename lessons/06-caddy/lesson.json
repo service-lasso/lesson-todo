@@ -1,0 +1,23 @@
+{
+  "id": "06-caddy",
+  "article": "https://service-lasso.github.io/service-lasso/getting-started/advanced-proxying-services-with-caddy",
+  "services": [
+    "@node",
+    "@python",
+    "@java",
+    "@localcert",
+    "@nginx",
+    "@traefik",
+    "@serviceadmin",
+    "echo-service",
+    "@secretsbroker",
+    "todo",
+    "postgres",
+    "todo-api",
+    "@caddy",
+    "php",
+    "php-page"
+  ],
+  "host": "../../src/lesson-host.mjs",
+  "workspace": "../../.workspace/06-caddy"
+}

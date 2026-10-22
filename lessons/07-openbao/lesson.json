@@ -1,0 +1,22 @@
+{
+  "id": "07-openbao",
+  "article": "https://service-lasso.github.io/service-lasso/getting-started/advanced-openbao-secret-source",
+  "services": [
+    "@node",
+    "@python",
+    "@java",
+    "@localcert",
+    "@nginx",
+    "@traefik",
+    "@serviceadmin",
+    "echo-service",
+    "@secretsbroker",
+    "@openbao",
+    "openbao-check",
+    "todo",
+    "postgres",
+    "todo-api"
+  ],
+  "host": "../../src/lesson-host.mjs",
+  "workspace": "../../.workspace/07-openbao"
+}

@@ -35,7 +35,7 @@ test('each checkpoint has complete resolved dependencies, exact pins and indepen
     const lesson=JSON.parse(await readFile(path.join(config.repoRoot,'lessons',id,'lesson.json')));
     assert.ok(!lesson.article.includes('/docs/'));
     const inventory=new Map();
-    for(const serviceId of lesson.services){const m=JSON.parse(await readFile(path.join(config.sourceServicesRoot,serviceId,'service.json')));assert.equal(m.id,serviceId);inventory.set(serviceId,m);assert.ok(m.artifact.source.tag);assert.equal(m.artifact.source.channel,undefined);}
+    for(const serviceId of lesson.services){const m=JSON.parse(await readFile(path.join(config.sourceServicesRoot,serviceId,'service.json')));assert.equal(m.id,serviceId);inventory.set(serviceId,m);if(m.artifact){assert.ok(m.artifact.source.tag);assert.equal(m.artifact.source.channel,undefined);}}
     for(const m of inventory.values())for(const dependency of m.depend_on??[])assert.ok(inventory.has(dependency),`${id}: ${dependency}`);
     assert.equal(inventory.get('todo').artifact.source.tag,'2026.10.4-15dc4b9');
     const broker=inventory.get('@secretsbroker');
@@ -55,7 +55,7 @@ test('each checkpoint has complete resolved dependencies, exact pins and indepen
     const readme=await readFile(path.join(config.repoRoot,'lessons',id,'README.md'),'utf8');
     assert.match(readme,/```mermaid/);assert.ok(readme.includes(lesson.article));
   }
-  assert.equal(registries.size,5);assert.equal(portRegistries.size,5);
+  assert.equal(registries.size,lessons.length);assert.equal(portRegistries.size,lessons.length);
   assert.throws(()=>lessonPaths(undefined),/explicitly/);
 });
 

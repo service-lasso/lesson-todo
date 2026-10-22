@@ -1,6 +1,6 @@
 # Todo, from first app to desktop
 
-One repository, five complete runnable checkpoints for the Service Lasso article series.
+One repository, six complete runnable checkpoints for the Service Lasso article series.
 Each folder owns its full service inventory and explains the change from the previous step.
 The real service implementations and release archives remain in their producer repositories.
 
@@ -11,6 +11,8 @@ The real service implementations and release archives remain in their producer r
 | [03 API](lessons/03-api/README.md) | Go API owns SQL | [Add an API](https://service-lasso.github.io/service-lasso/getting-started/advanced-add-go-todo-api-service) |
 | [04 SSO](lessons/04-sso/README.md) | Identity, HTTPS, paired App/API protection | [Add SSO](https://service-lasso.github.io/service-lasso/getting-started/zitadel-sso-hub) |
 | [05 Desktop](lessons/05-desktop/README.md) | Native Windows shell; optional identity | [Package Todo](https://service-lasso.github.io/service-lasso/getting-started/package-todo-tauri) |
+| [06 Caddy](lessons/06-caddy/README.md) | Shared Caddy FastCGI translator for PHP | [Proxy with Caddy](https://service-lasso.github.io/service-lasso/getting-started/advanced-proxying-services-with-caddy) |
+| [07 OpenBao](lessons/07-openbao/README.md) | OpenBao KV v2 source behind Secrets Broker | [Resolve secrets from OpenBao](https://service-lasso.github.io/service-lasso/getting-started/advanced-openbao-secret-source) |
 
 ## Platform prerequisites
 
@@ -87,10 +89,14 @@ in Admin again, dependencies first. The host restart retains state and does not 
 start the App stack.
 
 Select another checkpoint explicitly with `npm run setup -- 02` and `npm run lesson:02`
-(through 05). `npm run setup -- --01` also works. Stage 04 starts with
+(01 through 05, plus 07 for the OpenBao source lesson). `npm run setup -- --01` also works. Stage 04 starts with
 `npm run lesson:04 -- --management` for provisioning; normal launch rejects an incomplete
 SSO pair. Stage 05 builds an executable with `npm run desktop:build` on Windows x64,
-Node 22, Rust stable MSVC and Windows build tools.
+Node 22, Rust stable MSVC and Windows build tools. Stage 07 runs
+`npm run setup -- 07`, starts the management host with
+`npm run lesson:07 -- --management`, then follows the [OpenBao lesson](lessons/07-openbao/README.md)
+to start OpenBao, pin its TLS CA into the Broker, seed a KV v2 value, and prove
+the Echo consumer resolves it. The same flow is automated as `npm run e2e:openbao`.
 
 Every checkpoint uses separate ignored `.workspace/<checkpoint>/services`, `runtime`
 and `registries` directories, including private instance and host-port registries.

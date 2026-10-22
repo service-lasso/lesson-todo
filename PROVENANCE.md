@@ -11,6 +11,7 @@ Apache-2.0. Preserve the upstream LICENSE files and notices when redistributing.
 | Managed Node 22 candidate | `lasso-node` `4b473fbbf70e109cce9632d0f59b2e80f1b9a5b5`, published tag `2026.10.5-4b473fb` | Original source manifest retained in `provenance/node/service.json` (producer default Node 24); the lesson explicitly selects the Node 22 version/asset profile from the multi-version publisher. The producer root release manifest keeps its Node 24 default. Five adapted provider manifests; Node `v22.23.3`; `lasso-node-v22.23.3-{win32.zip,linux.tar.gz,darwin.tar.gz}`. Published tag identity and checksum inventory verified; exact Windows archive checksum verified; full managed consumer proof pending; no unpublished runtime bytes copied |
 | Core runtime | npm `@service-lasso/service-lasso@2026.9.22-f3de461` | Package lock integrity pins published bytes; helper imports verified against its distribution |
 | Admin release | `lasso-serviceadmin` `2026.8.31-f015b44` | `@serviceadmin-win32.zip` SHA256 `fe5e5fe01d1202f3874097e6223652d634c94677c765c5f82d20e6d274c0161c` |
+| OpenBao service | `lasso-openbao` release `2026.10.14-398f800` (upstream OpenBao `v2.7.1`) | Development-mode source service for lesson 07; the lesson owns the source registry, required consumer import and safe seed/check helpers |
 
 Todo and API producer original `service.json`, `source.json` and `SHA256SUMS.txt` are
 retained under [provenance](provenance/). Other exact release manifest digests are recorded

@@ -9,10 +9,10 @@ import { zitadelMacos11, isQualifiedIntelIdentity } from '../src/qualified-zitad
 export { zitadelMacos11 };
 
 export const repoRoot = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
-export const lessons = ['01-app', '02-database', '03-api', '04-sso', '05-desktop'];
+export const lessons = ['01-app', '02-database', '03-api', '04-sso', '05-desktop', '06-caddy', '07-openbao'];
 export function lessonPaths(selector, root = repoRoot) {
   const id = lessons.find(id => id === selector || id.slice(0, 2) === selector?.replace(/^--/, ''));
-  if (!id) throw Error('Select 01, 02, 03, 04 or 05 explicitly.');
+  if (!id) throw Error('Select 01, 02, 03, 04, 05, 06 or 07 explicitly.');
   const base = path.join(root, '.workspace', id);
   return { id, repoRoot: root, sourceServicesRoot: path.join(root, 'lessons', id, 'services'),
     servicesRoot: path.join(base, 'services'), workspaceRoot: path.join(base, 'runtime'),

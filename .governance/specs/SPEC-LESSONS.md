@@ -1,4 +1,4 @@
-# Five runnable Todo checkpoints — issue #1 / Core #1695
+# Six runnable Todo checkpoints — issue #1 / Core #1695
 
 Issue #9 / LESSON-2/4/6: Stage 04 fresh Intel macOS 11 may consume only an
 exact publicly qualified ZITADEL compatibility profile with source/tag/hash and
@@ -46,11 +46,16 @@ consumer/publication gates are in
   qualification are clearly distinguished and existing SSO is never downgraded.
 - LESSON-6: Preserve inherited protected tests; add meaningful setup/retention and
   lesson contract checks, independent review, exact fresh managed acceptance and
-  native build evidence. Publish source via reviewed develop PR, then five Core
+  native build evidence. Publish source via reviewed develop PR, then Core
   article links through its reviewed PR and explicit Pages/live validation.
   Issue #5: preserve the inherited junction/retention gates; add acquired-link
   and seed/destination escape coverage, plus exact-candidate Mac setup/restart
   proof. Platform prerequisites and full managed stack acceptance stay distinct.
+- LESSON-7: Stage7 adds a development OpenBao KV v2 source, a Broker source
+  registry, a required Echo consumer import, and safe seed/check helpers. The
+  lesson proves mapped-ref delivery and fail-closed startup when the source is
+  unavailable; it does not claim production OpenBao hardening or managed
+  consumer acceptance from source fixtures alone.
 
 - LESSON-2/3/6, issue #3: Fresh inventories pin managed Node 22.23.3 from
   exact producer source/tag. Legacy/default Broker requires macOS >=12; the

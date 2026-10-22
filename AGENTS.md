@@ -1,6 +1,6 @@
 # Todo lesson repository
 
-This repository is the application assembly for five progressive Service Lasso
+This repository is the application assembly for six progressive Service Lasso
 articles. Read `.governance/project/PROJECT_INTENT.md` and
 `.governance/specs/SPEC-LESSONS.md`, then the ordered gov-01 through gov-14 rules
 under `.governance/rules/` before changes. Core-specific inherited release rule
@@ -17,5 +17,5 @@ stays in lasso-todo, lasso-todo-api, lasso-postgres and lasso-zitadel. This repo
 owns lesson manifests, host/setup tooling, READMEs, tests and CI. Runtime state,
 credentials, private CAs and databases are never committed. Source, fixture,
 managed runtime, native compilation, native SSO and publication evidence remain
-separate. Current work: issue #1, SPEC-LESSONS LESSON-1 through LESSON-6,
+separate. Current work: issue #1, SPEC-LESSONS LESSON-1 through LESSON-7,
 coordinated by Core #1695 / AC-4AJ.12.

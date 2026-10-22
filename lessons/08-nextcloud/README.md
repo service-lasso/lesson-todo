@@ -35,6 +35,14 @@ Install, configure and start `nextcloud` in Service Admin. The first start runs
 `nextcloud` domain through Traefik, or use the `@caddy` web port locally with
 `Host: nextcloud.servicelasso.localhost`.
 
+:::note Core requirement
+This checkpoint needs a Core build with the Caddy ingress registration
+(`CADDY_ADMIN_ADDR` and `/service-lasso/register`). The current
+`@service-lasso/service-lasso` pin predates that feature; update the pin when
+the next Core release lands. The reference E2E was validated against Core
+`develop`.
+:::
+
 ## Verify WebDAV
 
 ```powershell

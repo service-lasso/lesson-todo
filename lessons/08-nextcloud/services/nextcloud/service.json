@@ -69,7 +69,7 @@
     "source": {
       "type": "github-release",
       "repo": "service-lasso/lasso-nextcloud",
-      "channel": "latest"
+      "tag": "2026.10.22-386ddfa"
     },
     "platforms": {
       "win32": {

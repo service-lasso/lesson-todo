@@ -53,7 +53,7 @@ node lessons/07-openbao/scripts/configure-openbao.mjs .workspace/07-openbao/serv
 node lessons/07-openbao/scripts/seed-openbao.mjs
 ```
 
-The seed helper uses the generated `.workspace/07-openbao/services/@openbao/runtime/tls/vault-ca.pem` by default; set `BAO_CACERT` only if you moved it. If the first-run flow already started `@secretsbroker`, restart it after the configure command so it reloads the source registry and CA; otherwise install/configure/start it. Then install/configure/start `openbao-check`.
+The seed helper uses the generated `.workspace/07-openbao/services/@openbao/runtime/tls/vault-ca.pem` by default; set `BAO_CACERT` only if you moved it. Install/configure/start `@secretsbroker` after the configure command, then install/configure/start `openbao-check`.
 
 In Admin, install/configure/start `openbao-check`. Open its **Service HTTP** origin, then run:
 

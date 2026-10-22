@@ -4,7 +4,6 @@
   "description": "Echo consumer that proves a Service Lasso Secrets Broker ref resolves through the configured OpenBao source.",
   "version": "2026.4.20-a417abd",
   "enabled": true,
-  "autostart": false,
   "depend_on": [
     "@secretsbroker",
     "@openbao"
@@ -18,7 +17,7 @@
     "ECHO_DB_PATH": "./runtime/echo.sqlite"
   },
   "broker": {
-    "enabled": true,
+  "enabled": false,
     "namespace": "services/openbao-check",
     "buckets": [
       {

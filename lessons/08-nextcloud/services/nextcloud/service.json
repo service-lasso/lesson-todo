@@ -1,0 +1,154 @@
+{
+  "id": "nextcloud",
+  "name": "Nextcloud",
+  "description": "Release-backed Nextcloud FastCGI application backend for Service Lasso. Fronted by lasso-caddy and routed by lasso-traefik.",
+  "version": "34.0.4",
+  "enabled": true,
+  "logoutput": true,
+  "endpoints": [
+    {
+      "id": "fastcgi",
+      "kind": "network",
+      "label": "FastCGI",
+      "direction": "inbound",
+      "transport": "tcp",
+      "protocol": "tcp",
+      "bind": "127.0.0.1",
+      "port": {
+        "default": 9000,
+        "strategy": "preferred"
+      },
+      "exposure": "local",
+      "required": true,
+      "primary": true
+    }
+  ],
+  "ingress": [
+    {
+      "domain": "nextcloud.servicelasso.localhost",
+      "proxy": {
+        "type": "fastcgi",
+        "endpoint": "fastcgi",
+        "root": "${NEXTCLOUD_SOURCE_DIR}"
+      }
+    }
+  ],
+  "env": {
+    "NEXTCLOUD_FASTCGI_HOST": "${endpoint.fastcgi.bind}",
+    "NEXTCLOUD_FASTCGI_PORT": "${endpoint.fastcgi.port}",
+    "NEXTCLOUD_CONFIG_DIR": "${SERVICE_ROOT}/runtime/config",
+    "NEXTCLOUD_DATA_DIR": "${SERVICE_ROOT}/runtime/data",
+    "NEXTCLOUD_APPS_DIR": "${SERVICE_ROOT}/runtime/apps",
+    "NEXTCLOUD_DB_TYPE": "pgsql",
+    "NEXTCLOUD_DB_NAME": "nextcloud",
+    "NEXTCLOUD_DB_HOST": "${POSTGRES_HOST}",
+    "NEXTCLOUD_DB_PORT": "${POSTGRES_PORT}",
+    "NEXTCLOUD_DB_USER": "${POSTGRES_USER}",
+    "NEXTCLOUD_DB_PASSWORD": "${POSTGRES_PASSWORD}",
+    "NEXTCLOUD_ADMIN_USER": "admin",
+    "NEXTCLOUD_ADMIN_PASSWORD": "service-lasso",
+    "NEXTCLOUD_ADMIN_EMAIL": "admin@service-lasso.local",
+    "NEXTCLOUD_TRUSTED_DOMAINS": "nextcloud.servicelasso.localhost",
+    "NEXTCLOUD_OIDC_ENABLED": "false",
+    "NEXTCLOUD_OIDC_ISSUER": "",
+    "NEXTCLOUD_OIDC_PROVIDER_NAME": "Zitadel",
+    "NEXTCLOUD_OIDC_CLIENT_ID": "",
+    "NEXTCLOUD_OIDC_CLIENT_SECRET": "",
+    "NEXTCLOUD_OIDC_SCOPE": "openid email profile"
+  },
+  "globalenv": {
+    "NEXTCLOUD_FASTCGI_HOST": "${endpoint.fastcgi.bind}",
+    "NEXTCLOUD_FASTCGI_PORT": "${endpoint.fastcgi.port}",
+    "NEXTCLOUD_FASTCGI_ADDR": "${endpoint.fastcgi.bind}:${endpoint.fastcgi.port}",
+    "NEXTCLOUD_SOURCE_DIR": "${SERVICE_ARTIFACT_ROOT}/nextcloud",
+    "NEXTCLOUD_DATA_DIR": "${SERVICE_ROOT}/runtime/data",
+    "NEXTCLOUD_CONFIG_DIR": "${SERVICE_ROOT}/runtime/config"
+  },
+  "artifact": {
+    "kind": "archive",
+    "source": {
+      "type": "github-release",
+      "repo": "service-lasso/lasso-nextcloud",
+      "channel": "latest"
+    },
+    "platforms": {
+      "win32": {
+        "assetName": "lasso-nextcloud-34.0.4-win32.zip",
+        "archiveType": "zip",
+        "command": "node ./lasso-nextcloud.mjs",
+        "args": []
+      },
+      "darwin": {
+        "assetName": "lasso-nextcloud-34.0.4-darwin.tar.gz",
+        "archiveType": "tar.gz",
+        "command": "node ./lasso-nextcloud.mjs",
+        "args": []
+      },
+      "linux": {
+        "assetName": "lasso-nextcloud-34.0.4-linux.tar.gz",
+        "archiveType": "tar.gz",
+        "command": "node ./lasso-nextcloud.mjs",
+        "args": []
+      }
+    }
+  },
+  "install": {
+    "files": [
+      {
+        "path": "./runtime/config/.keep",
+        "content": ""
+      },
+      {
+        "path": "./runtime/apps/.keep",
+        "content": ""
+      },
+      {
+        "path": "./logs/.keep",
+        "content": ""
+      }
+    ]
+  },
+  "updates": {
+    "enabled": true,
+    "mode": "notify",
+    "track": "latest",
+    "checkIntervalSeconds": 86400
+  },
+  "depend_on": [
+    "@node",
+    "postgres"
+  ],
+  "execservice": "@node",
+  "args": [
+    "${SERVICE_ARTIFACT_ROOT}/lasso-nextcloud.mjs"
+  ],
+  "healthcheck": {
+    "id": "fastcgi-ready",
+    "type": "tcp",
+    "address": "${endpoint.fastcgi.bind}:${endpoint.fastcgi.port}",
+    "retries": 2400,
+    "interval": 500
+  },
+  "icon": [
+    {
+      "provider": "lucide",
+      "name": "cloud"
+    }
+  ],
+  "meta": {
+    "repository": {
+      "type": "git",
+      "url": "https://github.com/service-lasso/lasso-nextcloud.git"
+    },
+    "documentationUrl": "https://github.com/service-lasso/lasso-nextcloud/blob/main/README.md",
+    "issuesUrl": "https://github.com/service-lasso/lasso-nextcloud/issues",
+    "tags": [
+      "service-lasso",
+      "nextcloud",
+      "files",
+      "collaboration",
+      "php",
+      "fastcgi"
+    ]
+  }
+}

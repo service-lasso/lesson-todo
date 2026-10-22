@@ -93,9 +93,10 @@ Select another checkpoint explicitly with `npm run setup -- 02` and `npm run les
 `npm run lesson:04 -- --management` for provisioning; normal launch rejects an incomplete
 SSO pair. Stage 05 builds an executable with `npm run desktop:build` on Windows x64,
 Node 22, Rust stable MSVC and Windows build tools. Stage 07 runs
-`npm run setup -- 07`, writes the Broker OpenBao source registry with
-`node lessons/07-openbao/scripts/configure-openbao.mjs .workspace/07-openbao/services`,
-then starts the development OpenBao/Broker/consumer proof with `npm run lesson:07`.
+`npm run setup -- 07`, starts the management host with
+`npm run lesson:07 -- --management`, then follows the [OpenBao lesson](lessons/07-openbao/README.md)
+to start OpenBao, pin its TLS CA into the Broker, seed a KV v2 value, and prove
+the Echo consumer resolves it. The same flow is automated as `npm run e2e:openbao`.
 
 Every checkpoint uses separate ignored `.workspace/<checkpoint>/services`, `runtime`
 and `registries` directories, including private instance and host-port registries.

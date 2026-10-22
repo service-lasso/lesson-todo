@@ -5,6 +5,9 @@
   "version": "2.7.1",
   "enabled": true,
   "logoutput": true,
+  "env": {
+    "BAO_LOG_LEVEL": "debug"
+  },
   "icon": [
     {
       "provider": "lucide",
@@ -45,36 +48,42 @@
       "win32": {
         "assetName": "openbao-win32.zip",
         "archiveType": "zip",
-        "command": ".\\bao.exe",
+        "command": "./runtime/bao.exe",
         "args": [
           "server",
           "-dev",
           "-dev-root-token-id=lesson-root",
           "-dev-listen-address=127.0.0.1:${SERVICE_PORT}",
+          "-dev-tls",
+          "-dev-tls-cert-dir=${SERVICE_ROOT}/runtime/tls",
           "-dev-no-store-token"
         ]
       },
       "darwin": {
         "assetName": "openbao-darwin.tar.gz",
         "archiveType": "tar.gz",
-        "command": "./bao",
+        "command": "./runtime/bao",
         "args": [
           "server",
           "-dev",
           "-dev-root-token-id=lesson-root",
           "-dev-listen-address=127.0.0.1:${SERVICE_PORT}",
+          "-dev-tls",
+          "-dev-tls-cert-dir=${SERVICE_ROOT}/runtime/tls",
           "-dev-no-store-token"
         ]
       },
       "linux": {
         "assetName": "openbao-linux.tar.gz",
         "archiveType": "tar.gz",
-        "command": "./bao",
+        "command": "./runtime/bao",
         "args": [
           "server",
           "-dev",
           "-dev-root-token-id=lesson-root",
           "-dev-listen-address=127.0.0.1:${SERVICE_PORT}",
+          "-dev-tls",
+          "-dev-tls-cert-dir=${SERVICE_ROOT}/runtime/tls",
           "-dev-no-store-token"
         ]
       }
@@ -84,6 +93,10 @@
     "files": [
       {
         "path": "./runtime/data/.keep",
+        "content": ""
+      },
+      {
+        "path": "./runtime/tls/.keep",
         "content": ""
       },
       {
@@ -99,17 +112,20 @@
   "urls": [
     {
       "label": "ui",
-      "url": "http://127.0.0.1:${SERVICE_PORT}/ui",
+      "url": "https://127.0.0.1:${SERVICE_PORT}/ui",
       "kind": "local"
     },
     {
       "label": "health",
-      "url": "http://127.0.0.1:${SERVICE_PORT}/v1/sys/health",
+      "url": "https://127.0.0.1:${SERVICE_PORT}/v1/sys/health",
       "kind": "local"
     }
   ],
   "healthcheck": {
-    "type": "tcp"
+    "type": "tcp",
+    "address": "127.0.0.1:${SERVICE_PORT}",
+    "retries": 120,
+    "interval": 250
   },
   "execconfig": {
     "serviceorder": 100,
@@ -121,10 +137,12 @@
       "-dev",
       "-dev-root-token-id=lesson-root",
       "-dev-listen-address=127.0.0.1:${SERVICE_PORT}",
+      "-dev-tls",
+      "-dev-tls-cert-dir=${SERVICE_ROOT}/runtime/tls",
       "-dev-no-store-token"
     ],
     "env": {
-      "BAO_ADDR": "http://127.0.0.1:18200",
+      "BAO_ADDR": "https://127.0.0.1:18200",
       "BAO_API_PORT": "18200",
       "BAO_CLUSTER_PORT": "18201",
       "BAO_LOG_LEVEL": "info",

@@ -18,6 +18,7 @@
     "lesson:05": "node scripts/lesson.mjs run 05",
     "lesson:06": "node scripts/lesson.mjs run 06",
     "lesson:07": "node scripts/lesson.mjs run 07",
+    "e2e:openbao": "node scripts/e2e-openbao.mjs",
     "desktop:build": "node lessons/05-desktop/build.mjs"
   },
   "dependencies": {

@@ -8,10 +8,6 @@
     "@secretsbroker",
     "@openbao"
   ],
-  "executable": "node",
-  "args": [
-    "runtime/fixture-harness.mjs"
-  ],
   "env": {
     "ECHO_MESSAGE": "OpenBao secret-source check",
     "ECHO_OPENBAO_SECRET": "${openbao.DEMO_VALUE}",
@@ -21,7 +17,7 @@
     "ECHO_DB_PATH": "./runtime/echo.sqlite"
   },
   "broker": {
-    "enabled": true,
+  "enabled": false,
     "namespace": "services/openbao-check",
     "buckets": [
       {
@@ -84,7 +80,7 @@
     ]
   },
   "ports": {
-    "service": 4011
+    "service": 4020
   },
   "urls": [
     {

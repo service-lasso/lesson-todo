@@ -10,7 +10,7 @@ const expected = process.env.OPENBAO_LESSON_VALUE ?? 'openbao-lesson-secret';
 const response = await fetch(new URL('/env', origin), { redirect: 'error' });
 if (!response.ok) throw new Error(`Echo /env returned HTTP ${response.status}.`);
 const payload = await response.json();
-if (payload?.serviceEnv?.ECHO_OPENBAO_SECRET !== expected) {
+if (payload?.env?.ECHO_OPENBAO_SECRET !== expected) {
   throw new Error('Echo did not receive the expected OpenBao-backed Broker value. Check the Broker source and restart the check service.');
 }
 

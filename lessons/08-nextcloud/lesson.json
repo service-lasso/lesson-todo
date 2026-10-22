@@ -1,0 +1,24 @@
+{
+  "id": "08-nextcloud",
+  "article": "https://service-lasso.github.io/service-lasso/getting-started/advanced-run-nextcloud-behind-caddy",
+  "services": [
+    "@node",
+    "@python",
+    "@java",
+    "@localcert",
+    "@nginx",
+    "@traefik",
+    "@serviceadmin",
+    "echo-service",
+    "@secretsbroker",
+    "todo",
+    "postgres",
+    "todo-api",
+    "@caddy",
+    "php",
+    "php-page",
+    "nextcloud"
+  ],
+  "host": "../../src/lesson-host.mjs",
+  "workspace": "../../.workspace/08-nextcloud"
+}

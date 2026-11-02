@@ -47,7 +47,7 @@ Build with `npm run desktop:build` at the repository root; see [native inventory
 
 Public disposable local database defaults are documented by the producer; operator credentials, private CAs and databases are never committed or bundled. Earlier API checkpoints explicitly allow anonymous local access. Setup never changes existing SSO.
 
-The disabled inherited `@serviceadmin` manifest is inventory provenance only. The actual host serves checksum-bound Admin `2026.8.31-f015b44` from `.payload/admin` through its loopback proxy.
+The disabled inherited `@serviceadmin` manifest is inventory provenance only. The actual host serves checksum-bound Admin `2026.11.2-dda9f96` from `.payload/admin` through its loopback proxy.
 
 ## Source and release inventory
 
